@@ -69,5 +69,13 @@
     button {
       margin-right: 0.3rem;
     }
+
+    .link {
+      color: $white;
+
+      &:hover {
+        background-color: $light-color-light;
+      }
+    }
   }
 }
