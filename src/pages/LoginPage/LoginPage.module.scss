@@ -1,0 +1,60 @@
+@import "../../styles/variables";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: inherit;
+}
+
+.wrapper {
+  flex: 1;
+
+  h2 {
+    padding-top: 2rem;
+    font-size: 2rem;
+    color: $text_primary-color-light;
+  }
+}
+
+.form {
+  flex: 1;
+  padding: 1rem;
+  background-color: $primary-color-light;
+
+  fieldset {
+    position: relative;
+    top: 50%;
+    max-width: 400px;
+    margin: 0 auto;
+    border: none;
+    transform: translateY(-50%);
+  }
+
+  legend {
+    font-size: 1.2rem;
+    color: $white;
+  }
+
+  input {
+    width: 100%;
+    margin: 1rem 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .action {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    .link {
+      color: $white;
+
+      &:hover {
+        background-color: $light-color-light;
+      }
+    }
+  }
+}
