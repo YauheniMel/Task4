@@ -1,0 +1,73 @@
+@import "../../styles/variables";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: inherit;
+}
+
+.wrapper {
+  flex: 1;
+
+  h2 {
+    padding-top: 2rem;
+    font-size: 2rem;
+    color: $text_primary-color-light;
+  }
+}
+
+.form {
+  flex: 1;
+  padding: 1rem;
+  background-color: $primary-color-light;
+
+  fieldset {
+    position: relative;
+    top: 50%;
+    max-width: 400px;
+    margin: 0 auto;
+    border: none;
+    transform: translateY(-50%);
+  }
+
+  legend {
+    font-size: 1.2rem;
+    color: $white;
+  }
+
+  .gender {
+    color: $white;
+
+    p {
+      display: inline-block;
+    }
+
+    input {
+      display: inline-block;
+      margin-left: 1rem;
+    }
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+
+  input:not([type="radio"]) {
+    width: 100%;
+    margin: 1rem 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .action {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    button {
+      margin-right: 0.3rem;
+    }
+  }
+}
