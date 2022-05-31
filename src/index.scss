@@ -1,0 +1,27 @@
+@import "./styles/normalize";
+@import "./styles/variables";
+
+html {
+  font-size: 16px;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+input,
+button {
+  height: 1.7rem;
+}
