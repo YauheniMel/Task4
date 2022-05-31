@@ -1,14 +1,17 @@
 import React from 'react';
-import MainPage from './pages/MainPage/MainPage';
-// import LoginPage from './pages/LoginPage/LoginPage';
-// import RegisterPage from './pages/RegisterPage/RegisterPage';
+import { Route, Routes } from 'react-router-dom';
+// import MainPage from './pages/MainPage/MainPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 function App() {
   return (
     <div className="App">
-      {/* <LoginPage /> */}
-      {/* <RegisterPage /> */}
-      <MainPage />
+      <Routes>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<RegisterPage />} />
+        {/* <MainPage /> */}
+      </Routes>
     </div>
   );
 }

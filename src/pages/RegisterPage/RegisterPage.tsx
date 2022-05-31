@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './RegisterPage.module.scss';
 
 const RegisterPage: FC = function () {
@@ -58,9 +59,9 @@ const RegisterPage: FC = function () {
               <button type="button">Reset</button>
               <button type="submit">Register</button>
             </div>
-            <a href="/login" className={styles.link}>
+            <NavLink className={styles.link} to="/login">
               Login
-            </a>
+            </NavLink>
           </div>
         </fieldset>
       </form>
