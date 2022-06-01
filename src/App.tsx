@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 // import MainPage from './pages/MainPage/MainPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
+import LoginPageContainer from './pages/LoginPage/LoginPageContainer';
+import RegisterPageContainer from './pages/RegisterPage/RegisterPageContainer';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<RegisterPage />} />
+        <Route path="login" element={<LoginPageContainer />} />
+        <Route path="signup" element={<RegisterPageContainer />} />
         {/* <MainPage /> */}
       </Routes>
     </div>
