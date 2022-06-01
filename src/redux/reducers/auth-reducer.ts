@@ -9,6 +9,10 @@ export const createUserPassword = (password: any) => ({
   type: 'CREATE-USER-PASSWORD',
   password,
 });
+export const createUser = (value: any) => ({
+  type: 'CREATE-USER',
+  value,
+});
 export const setUserInfo = (user: any) => ({
   type: 'SET-USER-INFO',
   user,
@@ -32,17 +36,6 @@ const initState = {
 // eslint-disable-next-line @typescript-eslint/default-param-last
 function authReducer(state = initState, action: any) {
   switch (action.type) {
-    case 'LOGIN-USER': {
-      const stateCopy = {
-        ...state,
-        isAuth: true,
-      };
-
-      stateCopy.loginValue = null;
-      stateCopy.passwordValue = null;
-
-      return stateCopy;
-    }
     case 'CREATE-USER-LOGIN': {
       const stateCopy = {
         ...state,
@@ -72,6 +65,25 @@ function authReducer(state = initState, action: any) {
 
       return stateCopy;
     }
+    case 'CREATE-USER': {
+      const stateCopy = {
+        ...state,
+        ...action.value,
+      };
+
+      return stateCopy;
+    }
+    case 'LOGIN-USER': {
+      const stateCopy = {
+        ...state,
+        isAuth: true,
+      };
+
+      stateCopy.loginValue = null;
+      stateCopy.passwordValue = null;
+
+      return stateCopy;
+    }
     default:
       return state;
   }
@@ -84,6 +96,20 @@ export const login = (credentials: any) => (dispatch: any) => {
       console.log(data);
       dispatch(setUserInfo(data));
       dispatch(loginUser());
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+export const register = (userInfo: any) => (dispatch: any) => {
+  // eslint-disable-next-line no-debugger
+  debugger;
+  requestAPI
+    .register(userInfo)
+    .then((data) => {
+      console.log(data);
+      dispatch(setUserInfo(data));
     })
     .catch((err) => {
       console.log(err.message);

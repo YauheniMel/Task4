@@ -1,10 +1,11 @@
+import classNames from 'classnames';
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './LoginPage.module.scss';
 
 const LoginPage: FC<any> = function ({ submit, setLogin, setPassword }) {
   return (
-    <div className={`${styles.container} container`}>
+    <div className={classNames(styles.container, 'container')}>
       <div className={styles.wrapper}>
         <h2>Welcome!</h2>
       </div>
