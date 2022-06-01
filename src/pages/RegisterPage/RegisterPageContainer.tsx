@@ -11,6 +11,7 @@ const RegisterPageApiContainer: FC<any> = function ({
   email,
   sex,
   login,
+  password,
   // eslint-disable-next-line @typescript-eslint/no-shadow
   createUser,
 }) {
@@ -23,6 +24,7 @@ const RegisterPageApiContainer: FC<any> = function ({
       email,
       sex,
       login,
+      password,
     };
 
     register(userInfo);
@@ -38,6 +40,7 @@ function mapStateToProps(state: any) {
     email: state.auth.email,
     login: state.auth.login,
     sex: state.auth.sex,
+    password: state.auth.password,
   };
 }
 

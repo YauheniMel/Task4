@@ -31,6 +31,8 @@ const LoginPageApiContainer: FC<any> = function ({
       submit={handleSubmit}
       setPassword={setPassword}
       setLogin={setLogin}
+      login={loginValue}
+      password={passwordValue}
     />
   );
 };

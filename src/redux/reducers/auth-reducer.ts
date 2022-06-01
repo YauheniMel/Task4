@@ -27,7 +27,7 @@ const initState = {
   loginValue: null,
   passwordValue: null,
   sex: null,
-  meat: {
+  meta: {
     registerDate: null,
     loginDate: null,
   },
@@ -60,7 +60,7 @@ function authReducer(state = initState, action: any) {
         lastName: action.user.lastName,
         email: action.user.email,
         sex: action.user.sex,
-        meat: { ...action.user.meta },
+        meta: { ...action.user.meta },
       };
 
       return stateCopy;
@@ -70,6 +70,9 @@ function authReducer(state = initState, action: any) {
         ...state,
         ...action.value,
       };
+
+      stateCopy.loginValue = null;
+      stateCopy.passwordValue = null;
 
       return stateCopy;
     }
@@ -93,12 +96,15 @@ export const login = (credentials: any) => (dispatch: any) => {
   requestAPI
     .login(credentials)
     .then((data) => {
+      // eslint-disable-next-line no-debugger
+      debugger;
       console.log(data);
-      dispatch(setUserInfo(data));
+      dispatch(setUserInfo(data.targetUser));
       dispatch(loginUser());
+      alert(`Hello ${data.targetUser.firstName}`);
     })
     .catch((err) => {
-      console.log(err.message);
+      alert(err.response.data);
     });
 };
 
@@ -108,11 +114,15 @@ export const register = (userInfo: any) => (dispatch: any) => {
   requestAPI
     .register(userInfo)
     .then((data) => {
-      console.log(data);
-      dispatch(setUserInfo(data));
+      // eslint-disable-next-line no-debugger
+      debugger;
+      dispatch(setUserInfo(data.targetUser));
+      alert(`Hello ${data.targetUser.firstName}`);
     })
     .catch((err) => {
-      console.log(err.message);
+      // eslint-disable-next-line no-debugger
+      debugger;
+      alert(err.response);
     });
 };
 
