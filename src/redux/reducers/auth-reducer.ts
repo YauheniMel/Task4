@@ -70,9 +70,6 @@ export const login = (credentials: any) => (dispatch: any) => {
   requestAPI
     .login(credentials)
     .then((data: any) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      console.log(data);
       dispatch(loginUser());
       alert(`Hello ${data.targetUser.firstName}`);
       localStorage.setItem('token', data.token);
@@ -84,8 +81,6 @@ export const login = (credentials: any) => (dispatch: any) => {
 };
 
 export const register = (userInfo: any) => (dispatch: any) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
   requestAPI
     .register(userInfo)
     .then((data: any) => {
@@ -97,9 +92,7 @@ export const register = (userInfo: any) => (dispatch: any) => {
       localStorage.setItem('login', data.targetUser.login);
     })
     .catch((err: any) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      alert(err.response);
+      alert(err.response.data);
     });
 };
 
