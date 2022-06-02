@@ -1,6 +1,6 @@
 const { Router } = require('express');
 // eslint-disable-next-line import/order
-const inserter = require('../service/inserter');
+const inserter = require('./service/inserter');
 
 const jwt = require('jsonwebtoken');
 
@@ -11,7 +11,7 @@ const timeout = (req, res, next) => {
 };
 
 const mysql = require('mysql');
-const db = require('../data/users');
+const db = require('./data/users');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -21,6 +21,27 @@ const connection = mysql.createConnection({
 });
 
 const router = Router();
+
+router.post('/api/users', timeout, (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const { login, token } = req.body;
+  connection.query('SELECT * FROM users', (err, results) => {
+    if (err) throw new Error(err);
+
+    const users = Object.values(JSON.parse(JSON.stringify(results)));
+
+    if (!users[0]) {
+      return res.status(401).send('Incorrect login info');
+    }
+
+    const targetUser = users.find((user) => user.login === login && token);
+
+    return res.status(200).json({
+      users: db(users),
+      targetUser,
+    });
+  });
+});
 
 router.post('/api/login', timeout, (req, res) => {
   const { loginValue, passwordValue } = req.body;

@@ -13,24 +13,11 @@ export const createUser = (value: any) => ({
   type: 'CREATE-USER',
   value,
 });
-export const setUserInfo = (user: any) => ({
-  type: 'SET-USER-INFO',
-  user,
-});
 
 const initState = {
-  id: null,
   isAuth: false,
-  firstName: null,
-  lastName: null,
-  email: null,
   loginValue: null,
   passwordValue: null,
-  sex: null,
-  meta: {
-    registerDate: null,
-    loginDate: null,
-  },
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -48,19 +35,6 @@ function authReducer(state = initState, action: any) {
       const stateCopy = {
         ...state,
         passwordValue: action.password,
-      };
-
-      return stateCopy;
-    }
-    case 'SET-USER-INFO': {
-      const stateCopy = {
-        ...state,
-        id: action.user.id,
-        firstName: action.user.firstName,
-        lastName: action.user.lastName,
-        email: action.user.email,
-        sex: action.user.sex,
-        meta: { ...action.user.meta },
       };
 
       return stateCopy;
@@ -95,15 +69,16 @@ function authReducer(state = initState, action: any) {
 export const login = (credentials: any) => (dispatch: any) => {
   requestAPI
     .login(credentials)
-    .then((data) => {
+    .then((data: any) => {
       // eslint-disable-next-line no-debugger
       debugger;
       console.log(data);
-      dispatch(setUserInfo(data.targetUser));
       dispatch(loginUser());
       alert(`Hello ${data.targetUser.firstName}`);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('login', data.targetUser.login);
     })
-    .catch((err) => {
+    .catch((err: any) => {
       alert(err.response.data);
     });
 };
@@ -113,13 +88,15 @@ export const register = (userInfo: any) => (dispatch: any) => {
   debugger;
   requestAPI
     .register(userInfo)
-    .then((data) => {
+    .then((data: any) => {
       // eslint-disable-next-line no-debugger
       debugger;
-      dispatch(setUserInfo(data.targetUser));
+      dispatch(createUser(data.targetUser));
       alert(`Hello ${data.targetUser.firstName}`);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('login', data.targetUser.login);
     })
-    .catch((err) => {
+    .catch((err: any) => {
       // eslint-disable-next-line no-debugger
       debugger;
       alert(err.response);
