@@ -86,9 +86,9 @@ export const getAllUsers = (payload: any) => (dispatch: any) => {
       alert(err.response.data);
     });
 };
-export const blockMe = (id: any, payload: any) => (dispatch: any) => {
+export const blockMe = (id: any) => (dispatch: any) => {
   requestAPI
-    .blockMe(id, payload)
+    .blockMe(id)
     .then((data: any) => {
       console.log(data);
       dispatch(deleteUserInfo());
@@ -97,12 +97,54 @@ export const blockMe = (id: any, payload: any) => (dispatch: any) => {
       alert(err.response.data);
     });
 };
+
+export const blockUsers = (ids: any) => (dispatch: any) => {
+  // eslint-disable-next-line no-debugger
+  debugger;
+  requestAPI
+    .block(ids)
+    .then((data: any) => {
+      console.log(data);
+      dispatch(getUsers(data.users));
+    })
+    .catch((err: any) => {
+      alert(err.response.data);
+    });
+};
+
+export const unblockUsers = (ids: any) => (dispatch: any) => {
+  // eslint-disable-next-line no-debugger
+  debugger;
+  requestAPI
+    .unblock(ids)
+    .then((data: any) => {
+      console.log(data);
+      // need to get a new users array
+      dispatch(getUsers(data.users));
+    })
+    .catch((err: any) => {
+      alert(err.response.data);
+    });
+};
+
 export const deleteMe = (id: any) => (dispatch: any) => {
   requestAPI
     .deleteMe(id)
     .then((data: any) => {
       console.log(data);
       dispatch(deleteUserInfo());
+    })
+    .catch((err: any) => {
+      alert(err.response.data);
+    });
+};
+
+export const deleteUsers = (ids: any) => (dispatch: any) => {
+  requestAPI
+    .deleteMe(ids)
+    .then((data: any) => {
+      console.log(data);
+      dispatch(getUsers(data.users));
     })
     .catch((err: any) => {
       alert(err.response.data);

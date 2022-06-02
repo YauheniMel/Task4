@@ -3,7 +3,15 @@ module.exports.loginDate = (loginDate, id) => `
   WHERE id = ${id};
 `;
 
-module.exports.state = (state, id) => `
-  UPDATE users SET state = '${state}'
+module.exports.blockMe = (id) => `
+  UPDATE users SET state = 'blocked'
   WHERE id = ${id};
 `;
+
+module.exports.blockUsers = (ids) => ids
+  .map((id) => `UPDATE users SET state = 'blocked' WHERE id = ${id};`)
+  .join('\n');
+
+module.exports.unblockUsers = (ids) => ids
+  .map((id) => `UPDATE users SET state = 'active' WHERE id = ${id};`)
+  .join('\n');

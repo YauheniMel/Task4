@@ -14,13 +14,20 @@ const requestAPI = {
   getUsers(payload: any) {
     return axios.post('/api/users', payload).then((response) => response.data);
   },
-  blockMe(id: any, payload: any) {
-    return axios
-      .put(`/api/update/${id}`, payload)
-      .then((response) => response.data);
+  blockMe(id: any) {
+    return axios.put('/api/block/', { id }).then((response) => response.data);
+  },
+  block(ids: any) {
+    return axios.put('/api/block/', ids).then((response) => response.data);
+  },
+  unblock(ids: any) {
+    return axios.put('/api/unblock/', ids).then((response) => response.data);
   },
   deleteMe(id: any) {
-    return axios.delete(`/api/del/${id}`).then((response) => response.data);
+    return axios.post('/api/del/', { id }).then((response) => response.data);
+  },
+  delete(ids: any) {
+    return axios.post('/api/del/', ids).then((response) => response.data);
   },
 };
 

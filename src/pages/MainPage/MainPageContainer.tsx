@@ -2,9 +2,12 @@ import React, { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   blockMe,
+  blockUsers,
   deleteMe,
   deleteUserInfo,
+  deleteUsers,
   getAllUsers,
+  unblockUsers,
 } from '../../redux/reducers/user-reducer';
 import checkLocalStorage from '../../services/checkLocalStorage';
 import MainPage from './MainPage';
@@ -18,7 +21,13 @@ const MainPageApiContainer: FC<any> = function ({
   // eslint-disable-next-line @typescript-eslint/no-shadow
   blockMe,
   // eslint-disable-next-line @typescript-eslint/no-shadow
+  blockUsers,
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  unblockUsers,
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   deleteMe,
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  deleteUsers,
   // eslint-disable-next-line @typescript-eslint/no-shadow
   deleteUserInfo,
 }) {
@@ -35,6 +44,9 @@ const MainPageApiContainer: FC<any> = function ({
       lastName={lastName}
       blockMe={blockMe}
       deleteMe={deleteMe}
+      deleteUsers={deleteUsers}
+      blockUsers={blockUsers}
+      unblockUsers={unblockUsers}
     />
   );
 };
@@ -57,13 +69,28 @@ function mapDispatchToProps(dispatch: any) {
         dispatch(action);
       }
     },
-    blockMe: (id: any, state: any) => {
-      const action = blockMe(id, state);
+    blockMe: (id: any) => {
+      const action = blockMe(id);
+
+      dispatch(action);
+    },
+    blockUsers: (ids: any) => {
+      const action = blockUsers(ids);
+
+      dispatch(action);
+    },
+    unblockUsers: (ids: any) => {
+      const action = unblockUsers(ids);
 
       dispatch(action);
     },
     deleteMe: (id: any) => {
       const action = deleteMe(id);
+
+      dispatch(action);
+    },
+    deleteUsers: (ids: any) => {
+      const action = deleteUsers(ids);
 
       dispatch(action);
     },

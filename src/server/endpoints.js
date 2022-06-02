@@ -19,6 +19,7 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'usersdb',
   password: 'melnik123',
+  multipleStatements: true,
 });
 
 const router = Router();
@@ -79,22 +80,38 @@ router.put('/api/login', timeout, async (req, res) => {
   }
 });
 
-router.put('/api/update/:id', timeout, (req, res) => {
-  const { state } = req.body;
-  const { id } = req.params;
+router.put('/api/block', timeout, (req, res) => {
+  let command;
+  if (Array.isArray(req.body)) {
+    command = updater.blockUsers(req.body);
+  } else {
+    const { id } = req.body;
+    command = updater.blockMe(id);
+  }
 
   try {
-    connection.query('SELECT * FROM users', (err, results) => {
+    connection.query('SELECT * FROM users', (err) => {
       if (err) throw new Error(err);
 
-      const users = Object.values(JSON.parse(JSON.stringify(results)));
+      connection.query(command, (error) => {
+        if (error) throw new Error(error);
+      });
 
-      const targetUser = users.find((user) => +user.id === +id);
-      if (!targetUser) {
-        throw new Error('Update process failed');
-      }
+      return res.status(200).send('You are blocked!');
+    });
+  } catch (err) {
+    res.status(400).send(`You aren't blocked: ${err.message}`);
+  }
+});
 
-      connection.query(updater.state(state, targetUser.id), (error) => {
+router.put('/api/unblock', timeout, (req, res) => {
+  const command = updater.unblockUsers(req.body);
+
+  try {
+    connection.query('SELECT * FROM users', (err) => {
+      if (err) throw new Error(err);
+
+      connection.query(command, (error) => {
         if (error) throw new Error(error);
       });
 
@@ -152,11 +169,19 @@ router.post('/api/register', timeout, (req, res) => {
   return [];
 });
 
-router.delete('/api/del/:id', timeout, (req, res) => {
-  const { id } = req.params;
+router.post('/api/del/', timeout, (req, res) => {
+  const { id } = req.body;
+  let command;
+  if (id) {
+    command = remover.deleteMe(id);
+  } else {
+    const ids = req.body;
+
+    command = remover.deleteUsers(ids);
+  }
 
   try {
-    connection.query(remover.deleteMe(id), (err) => {
+    connection.query(command, (err) => {
       if (err) throw new Error(err);
 
       return res.status(200).send('Your account was deleted!');
