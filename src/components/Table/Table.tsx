@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-const Table: FC<any> = function ({ users }) {
+const Table: FC<any> = function ({ users, setSelectRows }) {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'firstName', headerName: 'First name', width: 130 },
@@ -20,6 +20,7 @@ const Table: FC<any> = function ({ users }) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        onStateChange={(e) => setSelectRows(e.selection)}
       />
     </div>
   );

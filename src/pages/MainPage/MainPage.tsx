@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import classNames from 'classnames';
 import { Tooltip } from '@mui/material';
@@ -16,7 +16,11 @@ const MainPage: FC<any> = function ({
   blockMe,
   deleteMe,
   deleteUserInfo,
+  deleteUsers,
+  blockUsers,
+  unblockUsers,
 }) {
+  const [selectRows, setSelectRows] = useState([]);
   const { setIsAuth } = useAuth(false);
 
   async function handleClick() {
@@ -31,7 +35,7 @@ const MainPage: FC<any> = function ({
 
   async function handleBlockMe() {
     try {
-      await blockMe(id, { state: 'blocked' });
+      await blockMe(id);
 
       await logout();
 
@@ -48,6 +52,29 @@ const MainPage: FC<any> = function ({
       await logout();
 
       setIsAuth(true);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  async function handleBlockUsers() {
+    try {
+      blockUsers(selectRows);
+    } catch (err) {
+      alert(err);
+    }
+  }
+  async function handleUnblockUsers() {
+    try {
+      unblockUsers(selectRows);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  async function handleDeleteUsers() {
+    try {
+      deleteUsers(selectRows);
     } catch (err) {
       alert(err);
     }
@@ -73,8 +100,13 @@ const MainPage: FC<any> = function ({
       </header>
       <main className={styles.main}>
         <div className="container">
-          <ToolBar />
-          <Table users={users} />
+          <ToolBar
+            deleteUsers={handleDeleteUsers}
+            blockUsers={handleBlockUsers}
+            selectRows={selectRows}
+            unblockUsers={handleUnblockUsers}
+          />
+          <Table users={users} setSelectRows={setSelectRows} />
         </div>
       </main>
     </>

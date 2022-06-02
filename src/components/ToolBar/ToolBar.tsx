@@ -3,16 +3,31 @@ import { Button, ButtonGroup, IconButton } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ToolBar: FC<any> = function () {
+const ToolBar: FC<any> = function ({
+  blockUsers,
+  selectRows,
+  deleteUsers,
+  unblockUsers,
+}) {
   return (
     <ButtonGroup variant="text" aria-label="text button group">
-      <Button>Block</Button>
-      <IconButton aria-label="Unblock">
-        <LockOpenIcon />
-      </IconButton>
-      <IconButton aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
+      {selectRows[0] ? (
+        <>
+          <Button onClick={() => blockUsers(selectRows)}>Block</Button>
+          <IconButton
+            onClick={() => unblockUsers(selectRows)}
+            aria-label="Unblock"
+          >
+            <LockOpenIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => deleteUsers(selectRows)}
+            aria-label="delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
+      ) : null}
     </ButtonGroup>
   );
 };
