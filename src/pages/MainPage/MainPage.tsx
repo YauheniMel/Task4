@@ -81,9 +81,9 @@ const MainPage: FC<any> = function ({
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <header>
-        <div className={classNames(styles.header, 'container')}>
+        <div className={classNames(styles.container, 'container')}>
           <strong>{`${firstName} ${lastName}`}</strong>
           <div>
             <Tooltip title="Add" arrow>
@@ -99,17 +99,21 @@ const MainPage: FC<any> = function ({
         </div>
       </header>
       <main className={styles.main}>
-        <div className="container">
+        <div className={classNames(styles.container, 'container')}>
           <ToolBar
             deleteUsers={handleDeleteUsers}
             blockUsers={handleBlockUsers}
             selectRows={selectRows}
             unblockUsers={handleUnblockUsers}
           />
-          <Table users={users} setSelectRows={setSelectRows} />
+          <Table
+            selectRows={selectRows}
+            users={users}
+            setSelectRows={setSelectRows}
+          />
         </div>
       </main>
-    </>
+    </div>
   );
 };
 

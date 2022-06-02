@@ -8,40 +8,38 @@
 
 .wrapper {
   flex: 1;
+  background-color: $primary-color-light;
 
   h2 {
-    padding-top: 2rem;
+    padding: 2rem;
     font-size: 2rem;
-    color: $text_primary-color-light;
+    color: $white;
   }
 }
 
 .form {
   flex: 1;
-  padding: 1rem;
-  background-color: $primary-color-light;
 
-  fieldset {
+  .fieldset {
     position: relative;
     top: 50%;
     max-width: 400px;
     margin: 0 auto;
     border: none;
     transform: translateY(-50%);
+
+    & > * {
+      padding-bottom: 0.6rem;
+    }
   }
 
   legend {
     font-size: 1.2rem;
-    color: $white;
+    color: $text_primary-color-light;
   }
 
   input {
     width: 100%;
-    margin: 1rem 0;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   .action {
@@ -49,12 +47,8 @@
     justify-content: space-between;
     margin-top: 2rem;
 
-    .link {
-      color: $white;
-
-      &:hover {
-        background-color: $light-color-light;
-      }
+    button {
+      margin-right: 0.3rem;
     }
   }
 }

@@ -16,8 +16,8 @@ export const createUser = (value: any) => ({
 
 const initState = {
   isAuth: false,
-  loginValue: null,
-  passwordValue: null,
+  loginValue: '',
+  passwordValue: '',
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -45,8 +45,8 @@ function authReducer(state = initState, action: any) {
         ...action.value,
       };
 
-      stateCopy.loginValue = null;
-      stateCopy.passwordValue = null;
+      stateCopy.loginValue = '';
+      stateCopy.passwordValue = '';
 
       return stateCopy;
     }
@@ -56,8 +56,8 @@ function authReducer(state = initState, action: any) {
         isAuth: true,
       };
 
-      stateCopy.loginValue = null;
-      stateCopy.passwordValue = null;
+      stateCopy.loginValue = '';
+      stateCopy.passwordValue = '';
 
       return stateCopy;
     }
