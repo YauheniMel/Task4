@@ -5,8 +5,9 @@ module.exports = ({
   login,
   password,
   sex,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  state,
   registerDate,
+  loginDate,
 }) => `INSERT INTO users (
     firstName,
     lastName,
@@ -14,7 +15,9 @@ module.exports = ({
     login,
     password,
     sex,
-    registerDate
+    registerDate,
+    state,
+    loginDate
   ) VALUES (
     '${firstName}',
     '${lastName}',
@@ -22,5 +25,7 @@ module.exports = ({
     '${login}',
     '${password}',
     '${sex}',
-    '2022-05-01T12:34:08.051Z'
+    '${registerDate}',
+    '${state}',
+    '${loginDate}'
 )`;

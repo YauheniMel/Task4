@@ -25,6 +25,7 @@ const RegisterPageApiContainer: FC<any> = function ({
       sex,
       login,
       password,
+      state: 'active',
     };
 
     register(userInfo);

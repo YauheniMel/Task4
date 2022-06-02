@@ -15,6 +15,7 @@ const initState = {
   lastName: null,
   email: null,
   sex: null,
+  state: null,
   meta: {
     registerDate: null,
     loginDate: null,
@@ -41,6 +42,7 @@ function userReducer(state = initState, action: any) {
         lastName: action.user.lastName,
         email: action.user.email,
         sex: action.user.sex,
+        state: action.user.state,
         meta: { ...action.user.meta },
       };
 
@@ -55,8 +57,6 @@ export const getAllUsers = (payload: any) => (dispatch: any) => {
   requestAPI
     .getUsers(payload)
     .then((data: any) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
       dispatch(setUserInfo(data.targetUser));
 
       dispatch(getUsers(data.users));
