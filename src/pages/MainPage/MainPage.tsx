@@ -8,21 +8,31 @@ import styles from './MainPage.module.scss';
 import ToolBar from '../../components/ToolBar/ToolBar';
 import Table from '../../components/Table/Table';
 
-const MainPage: FC<any> = function ({ users, firstName, lastName }) {
+const MainPage: FC<any> = function ({
+  id,
+  users,
+  firstName,
+  lastName,
+  blockMe,
+  deleteMe,
+  deleteUserInfo,
+}) {
   const { setIsAuth } = useAuth(false);
 
   async function handleClick() {
     try {
       await logout();
-
+      deleteUserInfo();
       setIsAuth(true);
     } catch (err) {
       alert(err);
     }
   }
 
-  async function handleBlockUser() {
+  async function handleBlockMe() {
     try {
+      await blockMe(id, { state: 'blocked' });
+
       await logout();
 
       setIsAuth(true);
@@ -31,8 +41,10 @@ const MainPage: FC<any> = function ({ users, firstName, lastName }) {
     }
   }
 
-  async function handleDeleteUser() {
+  async function handleDeleteMe() {
     try {
+      await deleteMe(id);
+
       await logout();
 
       setIsAuth(true);
@@ -48,10 +60,10 @@ const MainPage: FC<any> = function ({ users, firstName, lastName }) {
           <strong>{`${firstName} ${lastName}`}</strong>
           <div>
             <Tooltip title="Add" arrow>
-              <Button onClick={handleBlockUser}>Block me</Button>
+              <Button onClick={handleBlockMe}>Block me</Button>
             </Tooltip>
             <Tooltip title="Add" arrow>
-              <Button onClick={handleDeleteUser}>Delete account</Button>
+              <Button onClick={handleDeleteMe}>Remove me</Button>
             </Tooltip>
             <Button onClick={handleClick} color="secondary">
               LogOut

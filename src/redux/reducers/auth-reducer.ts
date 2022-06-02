@@ -84,13 +84,15 @@ export const register = (userInfo: any) => (dispatch: any) => {
   requestAPI
     .register(userInfo)
     .then((data: any) => {
+      // eslint-disable-next-line no-debugger
+      debugger;
       dispatch(createUser(data.targetUser));
       alert(`Hello ${data.targetUser.firstName}`);
       localStorage.setItem('token', data.token);
       localStorage.setItem('login', data.targetUser.login);
     })
     .catch((err: any) => {
-      alert(err.response);
+      alert(err.response.data);
     });
 };
 

@@ -8,6 +8,9 @@ export const setUserInfo = (user: any) => ({
   type: 'SET-USER-INFO',
   user,
 });
+export const deleteUserInfo = () => ({
+  type: 'DELETE-USER-INFO',
+});
 
 const initState = {
   id: null,
@@ -48,6 +51,24 @@ function userReducer(state = initState, action: any) {
 
       return stateCopy;
     }
+    case 'DELETE-USER-INFO': {
+      const stateCopy = {
+        ...state,
+        id: null,
+        firstName: null,
+        lastName: null,
+        email: null,
+        sex: null,
+        state: null,
+        meta: {
+          registerDate: null,
+          loginDate: null,
+        },
+        users: [],
+      };
+
+      return stateCopy;
+    }
     default:
       return state;
   }
@@ -60,6 +81,28 @@ export const getAllUsers = (payload: any) => (dispatch: any) => {
       dispatch(setUserInfo(data.targetUser));
 
       dispatch(getUsers(data.users));
+    })
+    .catch((err: any) => {
+      alert(err.response.data);
+    });
+};
+export const blockMe = (id: any, payload: any) => (dispatch: any) => {
+  requestAPI
+    .blockMe(id, payload)
+    .then((data: any) => {
+      console.log(data);
+      dispatch(deleteUserInfo());
+    })
+    .catch((err: any) => {
+      alert(err.response.data);
+    });
+};
+export const deleteMe = (id: any) => (dispatch: any) => {
+  requestAPI
+    .deleteMe(id)
+    .then((data: any) => {
+      console.log(data);
+      dispatch(deleteUserInfo());
     })
     .catch((err: any) => {
       alert(err.response.data);

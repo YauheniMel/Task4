@@ -9,7 +9,7 @@ const Table: FC<any> = function ({ users }) {
     { field: 'email', headerName: 'Email', width: 130 },
     { field: 'registerDate', headerName: 'Registration date', width: 130 },
     { field: 'loginDate', headerName: 'Login date', width: 130 },
-    { field: 'status', headerName: 'Status', width: 130 },
+    { field: 'state', headerName: 'Status', width: 130 },
   ];
 
   return (
