@@ -11,6 +11,9 @@ const requestAPI = {
       .post('/api/register', userInfo)
       .then((response) => response.data);
   },
+  getUsers(payload: any) {
+    return axios.post('/api/users', payload).then((response) => response.data);
+  },
 };
 
 export default requestAPI;

@@ -5,3 +5,8 @@
   color: white;
   background-color: $primary-color-light;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

@@ -14,7 +14,7 @@ const express = require('express');
 //   return console.log('Подключение закрыто');
 // });
 
-const authRouter = require('./endpoints/authentication');
+const authRouter = require('./endpoints');
 
 const port = process.env.PORT || 5000;
 
