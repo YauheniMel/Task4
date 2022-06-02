@@ -1,12 +1,35 @@
 @import "../../styles/variables";
 
-.main {
-  height: 100%;
-  color: white;
-  background-color: $primary-color-light;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
+header {
+  padding: 1rem;
+  background-color: $primary-color-light;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    height: inherit;
+  }
+
+  strong {
+    color: $white;
+  }
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  padding: 40px 0 20px;
+  color: $white;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  }
 }

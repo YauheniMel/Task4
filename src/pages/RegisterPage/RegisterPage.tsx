@@ -1,5 +1,13 @@
-import classNames from 'classnames';
 import React, { FC } from 'react';
+import {
+  Button,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from '@mui/material';
+import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
 import styles from './RegisterPage.module.scss';
 
@@ -16,83 +24,83 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
         encType="multipart/form-data"
         onSubmit={submit}
       >
-        <fieldset>
+        <fieldset className={styles.fieldset}>
           <legend>Please sign up!</legend>
-          <input
+          <TextField
+            required
             onChange={onChange}
-            placeholder="Name..."
-            type="text"
+            label="Name"
             name="firstName"
-            required
+            autoFocus
+            fullWidth
+            size="small"
           />
-          <input
+          <TextField
+            required
             onChange={onChange}
-            placeholder="Surname..."
-            type="text"
+            label="Surname"
             name="lastName"
-            required
+            fullWidth
+            size="small"
           />
-          <input
+          <TextField
+            required
             onChange={onChange}
-            className={styles.login}
-            placeholder="login..."
-            type="text"
+            label="Login"
             name="login"
-            required
+            fullWidth
+            size="small"
           />
-          <input
+          <TextField
+            required
             onChange={onChange}
-            className={styles.email}
-            placeholder="email..."
-            type="text"
+            label="Email"
             name="email"
-            required
+            fullWidth
+            size="small"
           />
-          <div className={styles.gender}>
-            <p>Choose your gender</p>
-            <label htmlFor="male">
-              <input
-                onChange={onChange}
-                id="male"
-                type="radio"
-                name="sex"
-                value="male"
-              />
-              <span>male</span>
-            </label>
-            <label htmlFor="female">
-              <input
-                onChange={onChange}
-                type="radio"
-                name="sex"
-                id="female"
-                value="female"
-              />
-              <span>female</span>
-            </label>
-          </div>
-          <input
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="male"
+            name="sex"
             onChange={onChange}
-            className={styles.password}
-            placeholder="Password..."
-            type="text"
+          >
+            <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+          </RadioGroup>
+          <TextField
+            required
+            label="Password"
+            type="password"
             name="password"
-            required
-          />
-          <input
             onChange={onChange}
-            className={styles.password}
-            placeholder="Confirm password..."
-            type="text"
-            name="confirm-password"
+            size="small"
+            fullWidth
+          />
+          <TextField
             required
+            label="Confirm password"
+            type="password"
+            name="confirm-password"
+            onChange={onChange}
+            size="small"
+            fullWidth
           />
           <div className={styles.action}>
             <div className={styles.buttons}>
-              <button type="button">Reset</button>
-              <button type="submit">Register</button>
+              <Button type="reset" variant="contained">
+                Reset
+              </Button>
+              <Button type="submit" variant="contained">
+                Register
+              </Button>
             </div>
-            <NavLink className={styles.link} to="/login">
+            <NavLink className="link" to="/login">
               Login
             </NavLink>
           </div>
