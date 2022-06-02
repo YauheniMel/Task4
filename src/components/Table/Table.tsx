@@ -3,26 +3,36 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 const Table: FC<any> = function ({ users, setSelectRows }) {
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'firstName', headerName: 'First name', width: 130 },
-    { field: 'lastName', headerName: 'Last name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 130 },
-    { field: 'registerDate', headerName: 'Registration date', width: 130 },
-    { field: 'loginDate', headerName: 'Login date', width: 130 },
-    { field: 'state', headerName: 'Status', width: 130 },
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'firstName', headerName: 'First name', flex: 3 },
+    { field: 'lastName', headerName: 'Last name', flex: 3 },
+    { field: 'email', headerName: 'Email', flex: 3 },
+    { field: 'registerDate', headerName: 'Registration date', flex: 3 },
+    { field: 'loginDate', headerName: 'Login date', flex: 2 },
+    { field: 'state', headerName: 'Status', flex: 2 },
   ];
 
+  function fff(e: any) {
+    const start = e.pagination.page * e.pagination.pageSize;
+    e.selection = e.selection.filter(
+      (_: any, idx: any) => idx >= start && idx < start + e.pagination.pageSize,
+    );
+
+    // if (JSON.stringify(e.selection) === JSON.stringify(selectRows)) {
+    setSelectRows(e.selection);
+    // }
+  }
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={users}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        onStateChange={(e) => setSelectRows(e.selection)}
-      />
-    </div>
+    <DataGrid
+      style={{ height: 'inherit', width: '100%' }}
+      rows={users}
+      columns={columns}
+      autoPageSize
+      rowsPerPageOptions={[5]}
+      checkboxSelection
+      onStateChange={fff}
+    />
   );
 };
 

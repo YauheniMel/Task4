@@ -10,7 +10,11 @@ const ToolBar: FC<any> = function ({
   unblockUsers,
 }) {
   return (
-    <ButtonGroup variant="text" aria-label="text button group">
+    <ButtonGroup
+      sx={{ position: 'absolute', top: 5 }}
+      variant="text"
+      aria-label="text button group"
+    >
       {selectRows[0] ? (
         <>
           <Button onClick={() => blockUsers(selectRows)}>Block</Button>
