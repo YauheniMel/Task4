@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import LoginPageContainer from './pages/LoginPage/LoginPageContainer';
+import RegisterPageContainer from './pages/RegisterPage/RegisterPageContainer';
+import useAuth from './hooks/useAuth';
+import MainPageContainer from './pages/MainPage/MainPageContainer';
+import checkLocalStorage from './services/checkLocalStorage';
 
 function App() {
+  const { isAuth } = useAuth(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(checkLocalStorage() ? '/home' : '/login');
+  }, [isAuth]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        {/* <Route
+          path="/"
+          element={isAuth ? <Navigate to="/home" /> : <Navigate to="/login" />}
+        /> */}
+        <Route path="login" element={<LoginPageContainer />} />
+        <Route path="signup" element={<RegisterPageContainer />} />
+        <Route path="home" element={<MainPageContainer />} />
+      </Routes>
     </div>
   );
 }
