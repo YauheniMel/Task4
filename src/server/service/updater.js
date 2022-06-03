@@ -3,6 +3,16 @@ module.exports.loginDate = (loginDate, id) => `
   WHERE id = ${id};
 `;
 
+module.exports.offline = (id) => `
+  UPDATE users SET state = 'offline'
+  WHERE id = ${id};
+`;
+
+module.exports.online = (id) => `
+  UPDATE users SET state = 'online'
+  WHERE id = ${id};
+`;
+
 module.exports.blockMe = (id) => `
   UPDATE users SET state = 'blocked'
   WHERE id = ${id};

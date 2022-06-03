@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import requestAPI from '../../api/api';
 import { CredentialsType } from '../../interfaces';
+import logout from '../../services/logout';
 
 export const loginUserAction = () => ({ type: 'LOGIN-USER' });
 export const logoutUserAction = () => ({ type: 'LOGOUT-USER' });
@@ -101,6 +102,19 @@ export const registerAction = (userInfo: any) => (dispatch: any) => {
       toast.success(`Hello ${data.targetUser.firstName}`);
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('login', data.targetUser.login);
+    })
+    .catch((err: any) => {
+      toast.error(err.response.data);
+    });
+};
+
+export const logoutAction = (id: number) => (dispatch: any) => {
+  requestAPI
+    .logout(id)
+    .then((data: any) => {
+      toast.success(data);
+      dispatch(logoutUserAction());
+      logout();
     })
     .catch((err: any) => {
       toast.error(err.response.data);

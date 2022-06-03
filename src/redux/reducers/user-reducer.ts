@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import requestAPI from '../../api/api';
+import { UserType } from '../../interfaces';
 
 export const getUsersAction = (users: any) => ({
   type: 'GET-USERS',
@@ -13,17 +14,21 @@ export const setUserInfoAction = (user: any) => ({
 export const deleteUserInfoAction = () => ({
   type: 'DELETE-USER-INFO',
 });
+export const updateUsersAction = (users: UserType[]) => ({
+  type: 'UPDATE-USERS-ACTION',
+  users,
+});
 
 const initState = {
   id: null,
-  firstName: null,
-  lastName: null,
-  email: null,
-  sex: null,
-  state: null,
+  firstName: '',
+  lastName: '',
+  email: '',
+  sex: '',
+  state: '',
   meta: {
-    registerDate: null,
-    loginDate: null,
+    registerDate: '',
+    loginDate: '',
   },
   users: [],
 };
@@ -34,7 +39,18 @@ function userReducer(state = initState, action: any) {
     case 'GET-USERS': {
       const stateCopy = {
         ...state,
-        users: [...action.users],
+        users: [
+          ...action.users.map((user: any) => {
+            // eslint-disable-next-line no-param-reassign
+            user.loginDate = moment(user.loginDate).format('DD.MM.YYYY HH:MM');
+            // eslint-disable-next-line no-param-reassign
+            user.registerDate = moment(user.registerDate).format(
+              'DD.MM.YYYY HH:MM',
+            );
+
+            return user;
+          }),
+        ],
       };
 
       return stateCopy;
@@ -49,10 +65,8 @@ function userReducer(state = initState, action: any) {
         sex: action.user.sex,
         state: action.user.state,
         meta: {
-          loginDate: moment(+new Date(action.user.loginDate)).format(
-            'DD.MM.YYYY HH:MM',
-          ),
-          registerDate: moment(+new Date(action.user.registerDate)).format(
+          loginDate: moment(action.user.loginDate).format('DD.MM.YYYY HH:MM'),
+          registerDate: moment(action.user.registerDate).format(
             'DD.MM.YYYY HH:MM',
           ),
         },
@@ -74,6 +88,25 @@ function userReducer(state = initState, action: any) {
           loginDate: null,
         },
         users: [],
+      };
+
+      return stateCopy;
+    }
+    case 'UPDATE-USERS-ACTION': {
+      const stateCopy = {
+        ...state,
+        users: [
+          ...action.users.map((user: any) => {
+            // eslint-disable-next-line no-param-reassign
+            user.loginDate = moment(user.loginDate).format('DD.MM.YYYY HH:MM');
+            // eslint-disable-next-line no-param-reassign
+            user.registerDate = moment(user.registerDate).format(
+              'DD.MM.YYYY HH:MM',
+            );
+
+            return user;
+          }),
+        ],
       };
 
       return stateCopy;
