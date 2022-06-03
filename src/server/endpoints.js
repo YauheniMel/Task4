@@ -30,10 +30,10 @@ router.post('/api/users', timeout, (req, res) => {
   connection.query('SELECT * FROM users', (err, results) => {
     if (err) throw new Error(err);
 
-    const users = Object.values(JSON.parse(JSON.stringify(results)));
+    let users = Object.values(JSON.parse(JSON.stringify(results)));
 
     const targetUser = users.find((user) => user.login === login && token);
-
+    users = users.filter((user) => user !== targetUser);
     return res.status(200).json({
       users: db(users),
       targetUser,
@@ -68,7 +68,6 @@ router.put('/api/login', timeout, async (req, res) => {
           if (error) throw new Error(error);
         },
       );
-
       return res.status(200).json({
         token,
         targetUser,
@@ -97,10 +96,10 @@ router.put('/api/block', timeout, (req, res) => {
         if (error) throw new Error(error);
       });
 
-      return res.status(200).send('You are blocked!');
+      return res.status(200).send('Blocked successfully!');
     });
   } catch (err) {
-    res.status(400).send(`You aren't blocked: ${err.message}`);
+    res.status(400).send(`Blocked failed: ${err.message}`);
   }
 });
 
@@ -115,10 +114,10 @@ router.put('/api/unblock', timeout, (req, res) => {
         if (error) throw new Error(error);
       });
 
-      return res.status(200).send('You are blocked!');
+      return res.status(200).send('Unblocked successfully!');
     });
   } catch (err) {
-    res.status(400).send(`You aren't blocked: ${err.message}`);
+    res.status(400).send(`Unblocked failed: ${err.message}`);
   }
 });
 
@@ -169,25 +168,24 @@ router.post('/api/register', timeout, (req, res) => {
   return [];
 });
 
-router.post('/api/del/', timeout, (req, res) => {
-  const { id } = req.body;
+router.delete('/api/del/:ids', timeout, (req, res) => {
   let command;
-  if (id) {
-    command = remover.deleteMe(id);
-  } else {
-    const ids = req.body;
+  const ids = req.params.ids.split(',');
 
+  if (ids.length > 1) {
     command = remover.deleteUsers(ids);
+  } else {
+    command = remover.deleteMe(ids[0]);
   }
 
   try {
     connection.query(command, (err) => {
       if (err) throw new Error(err);
 
-      return res.status(200).send('Your account was deleted!');
+      return res.status(200).send('Deleted successfully!');
     });
   } catch (err) {
-    res.status(400).send(`You aren't deleted: ${err.message}`);
+    res.status(400).send(`Deleted failed: ${err.message}`);
   }
 });
 
