@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import classNames from 'classnames';
 import { Tooltip } from '@mui/material';
 import { toast } from 'react-toastify';
-import logout from '../../services/logout';
 import styles from './MainPage.module.scss';
 import ToolBar from '../../components/ToolBar/ToolBar';
 import Table from '../../components/Table/Table';
@@ -27,9 +26,7 @@ const MainPage: FC<any> = function ({
 
   async function handleClick() {
     try {
-      await logout();
-
-      logoutUser();
+      await logoutUser(id);
 
       deleteUserInfo();
     } catch (err: any) {
@@ -41,9 +38,7 @@ const MainPage: FC<any> = function ({
     try {
       await blockMe(id);
 
-      await logout();
-
-      logoutUser();
+      await logoutUser(id);
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -53,9 +48,7 @@ const MainPage: FC<any> = function ({
     try {
       await deleteMe(id);
 
-      await logout();
-
-      logoutUser();
+      await logoutUser(id);
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -96,7 +89,7 @@ const MainPage: FC<any> = function ({
         <div className={classNames(styles.container, 'container')}>
           <strong>{`${firstName} ${lastName}`}</strong>
           <div>
-            <Tooltip title="Add" arrow>
+            <Tooltip title="Block my account" arrow>
               <Button
                 sx={{ marginRight: 4 }}
                 variant="contained"
@@ -105,7 +98,7 @@ const MainPage: FC<any> = function ({
                 Block me
               </Button>
             </Tooltip>
-            <Tooltip title="Add" arrow>
+            <Tooltip title="Remove my account" arrow>
               <Button
                 sx={{ marginRight: 4 }}
                 variant="contained"

@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import { io } from 'socket.io-client';
+import { UserType } from '../../interfaces';
 import {
   loginUserAction,
-  logoutUserAction,
+  logoutAction,
 } from '../../redux/reducers/auth-reducer';
 import {
   blockMeAction,
@@ -12,6 +15,7 @@ import {
   deleteUsersAction,
   getAllUsersAction,
   unblockUsersAction,
+  updateUsersAction,
 } from '../../redux/reducers/user-reducer';
 import checkSessionStorage from '../../services/checkSessionStorage';
 import MainPage from './MainPage';
@@ -30,17 +34,43 @@ const MainPageApiContainer: FC<any> = function ({
   deleteUserInfo,
   logoutUser,
   status,
+  updateUsers,
 }) {
   const [isFetching, setIsFetching] = useState(false);
+  const [newUsers, setNewUsers] = useState();
 
-  // function handleClick() {
-  //   console.log(status);
+  useEffect(() => {
+    const socket = io('http://localhost:5000');
 
-  //   if (status === 'blocked') {
-  //     logoutUser();
-  //     logout();
-  //   }
-  // }
+    socket.on('time', (data) => setNewUsers(data));
+    if (newUsers) {
+      const [targetUser] = JSON.parse(newUsers).filter(
+        (user: UserType) => user.id === id,
+      );
+      updateUsers(
+        JSON.parse(newUsers).filter((user: UserType) => user.id !== id),
+      );
+      if (!targetUser) {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        window.addEventListener('click', handlePolicy);
+      } else if (targetUser.state === 'blocked') {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        window.addEventListener('click', handlePolicy);
+      }
+    }
+  }, [newUsers]);
+
+  async function handlePolicy() {
+    try {
+      await logoutUser(id);
+
+      deleteUserInfo();
+
+      window.removeEventListener('click', handlePolicy);
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }
 
   useEffect(() => {
     getUsers();
@@ -122,8 +152,13 @@ function mapDispatchToProps(dispatch: any) {
 
       dispatch(action);
     },
-    logoutUser: () => {
-      const action = logoutUserAction();
+    logoutUser: (id: number) => {
+      const action = logoutAction(id);
+
+      dispatch(action);
+    },
+    updateUsers: (users: UserType[]) => {
+      const action = updateUsersAction(users);
 
       dispatch(action);
     },
