@@ -36,3 +36,11 @@ button {
     text-decoration: underline;
   }
 }
+
+.Toastify__toast {
+  font-size: 1rem;
+}
+
+.Toastify__progress-bar {
+  background: $primary-color-light !important;
+}

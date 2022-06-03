@@ -17,7 +17,9 @@ const ToolBar: FC<any> = function ({
     >
       {selectRows[0] ? (
         <>
-          <Button onClick={() => blockUsers(selectRows)}>Block</Button>
+          <Button color="secondary" onClick={() => blockUsers(selectRows)}>
+            Block
+          </Button>
           <IconButton
             onClick={() => unblockUsers(selectRows)}
             aria-label="Unblock"

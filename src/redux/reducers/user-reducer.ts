@@ -1,14 +1,16 @@
+import moment from 'moment';
+import { toast } from 'react-toastify';
 import requestAPI from '../../api/api';
 
-export const getUsers = (users: any) => ({
+export const getUsersAction = (users: any) => ({
   type: 'GET-USERS',
   users,
 });
-export const setUserInfo = (user: any) => ({
+export const setUserInfoAction = (user: any) => ({
   type: 'SET-USER-INFO',
   user,
 });
-export const deleteUserInfo = () => ({
+export const deleteUserInfoAction = () => ({
   type: 'DELETE-USER-INFO',
 });
 
@@ -46,7 +48,14 @@ function userReducer(state = initState, action: any) {
         email: action.user.email,
         sex: action.user.sex,
         state: action.user.state,
-        meta: { ...action.user.meta },
+        meta: {
+          loginDate: moment(+new Date(action.user.loginDate)).format(
+            'DD.MM.YYYY HH:MM',
+          ),
+          registerDate: moment(+new Date(action.user.registerDate)).format(
+            'DD.MM.YYYY HH:MM',
+          ),
+        },
       };
 
       return stateCopy;
@@ -74,80 +83,74 @@ function userReducer(state = initState, action: any) {
   }
 }
 
-export const getAllUsers = (payload: any) => (dispatch: any) => {
+export const getAllUsersAction = (payload: any) => (dispatch: any) => {
   requestAPI
     .getUsers(payload)
     .then((data: any) => {
-      dispatch(setUserInfo(data.targetUser));
+      dispatch(setUserInfoAction(data.targetUser));
 
-      dispatch(getUsers(data.users));
+      dispatch(getUsersAction(data.users));
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
-export const blockMe = (id: any) => (dispatch: any) => {
+export const blockMeAction = (id: any) => (dispatch: any) => {
   requestAPI
     .blockMe(id)
     .then((data: any) => {
-      console.log(data);
-      dispatch(deleteUserInfo());
+      toast.success(data);
+
+      dispatch(deleteUserInfoAction());
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
 
-export const blockUsers = (ids: any) => (dispatch: any) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
+export const blockUsersAction = (ids: any) => () => {
   requestAPI
     .block(ids)
     .then((data: any) => {
-      console.log(data);
-      dispatch(getUsers(data.users));
+      toast.success(data);
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
 
-export const unblockUsers = (ids: any) => (dispatch: any) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
+export const unblockUsersAction = (ids: any) => () => {
   requestAPI
     .unblock(ids)
     .then((data: any) => {
-      console.log(data);
-      // need to get a new users array
-      dispatch(getUsers(data.users));
+      toast.success(data);
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
 
-export const deleteMe = (id: any) => (dispatch: any) => {
+export const deleteMeAction = (id: any) => (dispatch: any) => {
   requestAPI
     .deleteMe(id)
     .then((data: any) => {
-      console.log(data);
-      dispatch(deleteUserInfo());
+      toast.success(data);
+
+      dispatch(deleteUserInfoAction());
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
 
-export const deleteUsers = (ids: any) => (dispatch: any) => {
+export const deleteUsersAction = (ids: any) => () => {
   requestAPI
     .deleteMe(ids)
     .then((data: any) => {
-      console.log(data);
-      dispatch(getUsers(data.users));
+      toast.success(data);
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.message);
     });
 };
 
