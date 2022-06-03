@@ -1,15 +1,18 @@
+import { toast } from 'react-toastify';
 import requestAPI from '../../api/api';
+import { CredentialsType } from '../../interfaces';
 
-export const loginUser = () => ({ type: 'LOGIN-USER' });
-export const createUserLogin = (login: any) => ({
+export const loginUserAction = () => ({ type: 'LOGIN-USER' });
+export const logoutUserAction = () => ({ type: 'LOGOUT-USER' });
+export const createUserLoginAction = (login: any) => ({
   type: 'CREATE-USER-LOGIN',
   login,
 });
-export const createUserPassword = (password: any) => ({
+export const createUserPasswordAction = (password: any) => ({
   type: 'CREATE-USER-PASSWORD',
   password,
 });
-export const createUser = (value: any) => ({
+export const createUserAction = (value: any) => ({
   type: 'CREATE-USER',
   value,
 });
@@ -61,38 +64,46 @@ function authReducer(state = initState, action: any) {
 
       return stateCopy;
     }
+    case 'LOGOUT-USER': {
+      const stateCopy = {
+        ...state,
+        isAuth: false,
+      };
+
+      return stateCopy;
+    }
     default:
       return state;
   }
 }
 
-export const login = (credentials: any) => (dispatch: any) => {
+export const loginAction = (credentials: CredentialsType) => (dispatch: any) => {
   requestAPI
     .login(credentials)
     .then((data: any) => {
-      dispatch(loginUser());
-      alert(`Hello ${data.targetUser.firstName}`);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('login', data.targetUser.login);
+      dispatch(loginUserAction());
+      toast.success(`Hello ${data.targetUser.firstName}`);
+
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('login', data.targetUser.login);
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.response.data);
     });
 };
 
-export const register = (userInfo: any) => (dispatch: any) => {
+export const registerAction = (userInfo: any) => (dispatch: any) => {
   requestAPI
     .register(userInfo)
     .then((data: any) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      dispatch(createUser(data.targetUser));
-      alert(`Hello ${data.targetUser.firstName}`);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('login', data.targetUser.login);
+      dispatch(createUserAction(data.targetUser));
+      dispatch(loginUserAction());
+      toast.success(`Hello ${data.targetUser.firstName}`);
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('login', data.targetUser.login);
     })
     .catch((err: any) => {
-      alert(err.response.data);
+      toast.error(err.response.data);
     });
 };
 

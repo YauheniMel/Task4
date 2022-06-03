@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { CredentialsType, UserType } from '../interfaces';
 
 const requestAPI = {
-  login(credentials: any) {
+  login(credentials: CredentialsType) {
     return axios
       .put('/api/login', credentials)
       .then((response) => response.data);
   },
-  register(userInfo: any) {
+  register(userInfo: UserType[]) {
     return axios
       .post('/api/register', userInfo)
       .then((response) => response.data);
@@ -14,20 +15,20 @@ const requestAPI = {
   getUsers(payload: any) {
     return axios.post('/api/users', payload).then((response) => response.data);
   },
-  blockMe(id: any) {
+  blockMe(id: number) {
     return axios.put('/api/block/', { id }).then((response) => response.data);
   },
-  block(ids: any) {
+  block(ids: number[]) {
     return axios.put('/api/block/', ids).then((response) => response.data);
   },
-  unblock(ids: any) {
+  unblock(ids: number[]) {
     return axios.put('/api/unblock/', ids).then((response) => response.data);
   },
-  deleteMe(id: any) {
-    return axios.post('/api/del/', { id }).then((response) => response.data);
+  deleteMe(id: number) {
+    return axios.delete(`/api/del/${id}`).then((response) => response.data);
   },
-  delete(ids: any) {
-    return axios.post('/api/del/', ids).then((response) => response.data);
+  delete(ids: number[]) {
+    return axios.delete(`/api/del/${ids}`).then((response) => response.data);
   },
 };
 

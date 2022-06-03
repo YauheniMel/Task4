@@ -54,6 +54,7 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
           <TextField
             required
             onChange={onChange}
+            type="email"
             label="Email"
             name="email"
             fullWidth
@@ -61,32 +62,26 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
           />
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="male"
             name="sex"
             onChange={onChange}
           >
             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
             <FormControlLabel
+              value="male"
+              control={<Radio required />}
+              label="Male"
+            />
+            <FormControlLabel
               value="female"
-              control={<Radio />}
+              control={<Radio required />}
               label="Female"
             />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
           </RadioGroup>
           <TextField
             required
             label="Password"
             type="password"
             name="password"
-            onChange={onChange}
-            size="small"
-            fullWidth
-          />
-          <TextField
-            required
-            label="Confirm password"
-            type="password"
-            name="confirm-password"
             onChange={onChange}
             size="small"
             fullWidth

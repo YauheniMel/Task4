@@ -1,15 +1,19 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  blockMe,
-  blockUsers,
-  deleteMe,
-  deleteUserInfo,
-  deleteUsers,
-  getAllUsers,
-  unblockUsers,
+  loginUserAction,
+  logoutUserAction,
+} from '../../redux/reducers/auth-reducer';
+import {
+  blockMeAction,
+  blockUsersAction,
+  deleteMeAction,
+  deleteUserInfoAction,
+  deleteUsersAction,
+  getAllUsersAction,
+  unblockUsersAction,
 } from '../../redux/reducers/user-reducer';
-import checkLocalStorage from '../../services/checkLocalStorage';
+import checkSessionStorage from '../../services/checkSessionStorage';
 import MainPage from './MainPage';
 
 const MainPageApiContainer: FC<any> = function ({
@@ -18,22 +22,31 @@ const MainPageApiContainer: FC<any> = function ({
   getUsers,
   firstName,
   lastName,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   blockMe,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   blockUsers,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   unblockUsers,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   deleteMe,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   deleteUsers,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   deleteUserInfo,
+  logoutUser,
+  status,
 }) {
+  const [isFetching, setIsFetching] = useState(false);
+
+  // function handleClick() {
+  //   console.log(status);
+
+  //   if (status === 'blocked') {
+  //     logoutUser();
+  //     logout();
+  //   }
+  // }
+
   useEffect(() => {
     getUsers();
-  }, []);
+
+    setIsFetching(false);
+  }, [isFetching]);
 
   return (
     <MainPage
@@ -47,6 +60,10 @@ const MainPageApiContainer: FC<any> = function ({
       deleteUsers={deleteUsers}
       blockUsers={blockUsers}
       unblockUsers={unblockUsers}
+      logoutUser={logoutUser}
+      status={status}
+      isFetching={isFetching}
+      setIsFetching={setIsFetching}
     />
   );
 };
@@ -56,6 +73,7 @@ function mapStateToProps(state: any) {
     users: state.user.users,
     firstName: state.user.firstName,
     lastName: state.user.lastName,
+    status: state.user.state,
     id: state.user.id,
   };
 }
@@ -63,39 +81,49 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     getUsers: () => {
-      if (checkLocalStorage()) {
-        // need refactor
-        const action = getAllUsers(checkLocalStorage());
+      if (checkSessionStorage()) {
+        const action = getAllUsersAction(checkSessionStorage());
+
         dispatch(action);
       }
     },
-    blockMe: (id: any) => {
-      const action = blockMe(id);
+    blockMe: (id: number) => {
+      const action = blockMeAction(id);
 
       dispatch(action);
     },
-    blockUsers: (ids: any) => {
-      const action = blockUsers(ids);
+    blockUsers: (ids: number[]) => {
+      const action = blockUsersAction(ids);
 
       dispatch(action);
     },
-    unblockUsers: (ids: any) => {
-      const action = unblockUsers(ids);
+    unblockUsers: (ids: number[]) => {
+      const action = unblockUsersAction(ids);
 
       dispatch(action);
     },
-    deleteMe: (id: any) => {
-      const action = deleteMe(id);
+    deleteMe: (id: number) => {
+      const action = deleteMeAction(id);
 
       dispatch(action);
     },
-    deleteUsers: (ids: any) => {
-      const action = deleteUsers(ids);
+    deleteUsers: (ids: number[]) => {
+      const action = deleteUsersAction(ids);
 
       dispatch(action);
     },
     deleteUserInfo: () => {
-      const action = deleteUserInfo();
+      const action = deleteUserInfoAction();
+
+      dispatch(action);
+    },
+    loginUser: () => {
+      const action = loginUserAction();
+
+      dispatch(action);
+    },
+    logoutUser: () => {
+      const action = logoutUserAction();
 
       dispatch(action);
     },

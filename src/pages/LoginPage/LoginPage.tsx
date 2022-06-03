@@ -1,6 +1,6 @@
+import React, { FC } from 'react';
 import { Button, TextField } from '@mui/material';
 import classNames from 'classnames';
-import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './LoginPage.module.scss';
 
