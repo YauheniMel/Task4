@@ -21,6 +21,7 @@
     "classnames": "^2.3.1",
     "concurrently": "^7.2.1",
     "express": "^4.18.1",
+    "gh-pages": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
@@ -72,7 +73,8 @@
     "style": "stylelint **/*.{scss,css} -f verbose --fix",
     "prettier": "prettier --check \"{,!(node_modules)/**/}*.{tsx,ts,css,scss,md,js,jsx}\"",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{tsx,ts,md,js,jsx}\" && eslint src/**/*.{tsx,ts,md,js,jsx} --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
