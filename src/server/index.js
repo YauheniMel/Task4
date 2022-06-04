@@ -41,10 +41,10 @@ const timeout = (req, res, next) => {
 const db = require('./data/users');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'usersdb',
-  password: 'melnik123',
+  host: 'eu-cdbr-west-02.cleardb.net',
+  user: 'b1cd5381ac7ce7',
+  database: 'heroku_a43f96fa14d1eb7',
+  password: 'de2a81b2',
   multipleStatements: true,
 });
 
