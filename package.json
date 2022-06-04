@@ -63,7 +63,7 @@
   },
   "scripts": {
     "heroku-postbuilder": "cd client && npm install && npm run build",
-    "start": "react-scripts --max-http-header-size=1024 start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "server": "nodemon ./src/server/index.js --prefix client",
     "dev": "concurrently \"npm start\" \"npm run server\"",
