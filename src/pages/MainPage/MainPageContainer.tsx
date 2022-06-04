@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { UserType } from '../../interfaces';
-import {
-  loginUserAction,
-  logoutAction,
-} from '../../redux/reducers/auth-reducer';
+import { loginUserAction, logoutAction } from '../../redux/actions/auth-action';
 import {
   blockMeAction,
   blockUsersAction,
@@ -16,7 +13,8 @@ import {
   getAllUsersAction,
   unblockUsersAction,
   updateUsersAction,
-} from '../../redux/reducers/user-reducer';
+} from '../../redux/actions/user-action';
+
 import checkSessionStorage from '../../services/checkSessionStorage';
 import MainPage from './MainPage';
 
@@ -52,21 +50,29 @@ const MainPageApiContainer: FC<any> = function ({
       );
       if (!targetUser) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        window.addEventListener('click', handlePolicy);
+        window.addEventListener('click', handlePolicy, {
+          capture: true,
+          once: true,
+        });
       } else if (targetUser.state === 'blocked') {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        window.addEventListener('click', handlePolicy);
+        window.addEventListener('click', handlePolicy, {
+          capture: true,
+          once: true,
+        });
       }
     }
   }, [newUsers]);
 
-  async function handlePolicy() {
+  async function handlePolicy(event: any) {
+    event.stopPropagation();
+
     try {
-      await logoutUser(id);
+      await logoutUser(id, 'blocked');
 
       deleteUserInfo();
 
-      window.removeEventListener('click', handlePolicy);
+      window.removeEventListener('click', handlePolicy, { capture: true });
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -152,8 +158,8 @@ function mapDispatchToProps(dispatch: any) {
 
       dispatch(action);
     },
-    logoutUser: (id: number) => {
-      const action = logoutAction(id);
+    logoutUser: (id: number, status: string) => {
+      const action = logoutAction({ id, status });
 
       dispatch(action);
     },

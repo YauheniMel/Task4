@@ -7,10 +7,10 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import LoginPageContainer from './pages/LoginPage/LoginPageContainer';
 import RegisterPageContainer from './pages/RegisterPage/RegisterPageContainer';
 import MainPageContainer from './pages/MainPage/MainPageContainer';
-import { loginUserAction } from './redux/reducers/auth-reducer';
 import { AppStateInterface } from './interfaces';
 import 'react-toastify/dist/ReactToastify.css';
 import checkSessionStorage from './services/checkSessionStorage';
+import { loginUserAction } from './redux/actions/auth-action';
 
 const App: FC<{ isAuth: boolean; login: () => void }> = function ({
   isAuth,
