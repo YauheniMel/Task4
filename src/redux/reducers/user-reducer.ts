@@ -1,27 +1,15 @@
-import requestAPI from '../../api/api';
-
-export const getUsers = (users: any) => ({
-  type: 'GET-USERS',
-  users,
-});
-export const setUserInfo = (user: any) => ({
-  type: 'SET-USER-INFO',
-  user,
-});
-export const deleteUserInfo = () => ({
-  type: 'DELETE-USER-INFO',
-});
+import moment from 'moment';
 
 const initState = {
   id: null,
-  firstName: null,
-  lastName: null,
-  email: null,
-  sex: null,
-  state: null,
+  firstName: '',
+  lastName: '',
+  email: '',
+  sex: '',
+  state: '',
   meta: {
-    registerDate: null,
-    loginDate: null,
+    registerDate: '',
+    loginDate: '',
   },
   users: [],
 };
@@ -32,7 +20,18 @@ function userReducer(state = initState, action: any) {
     case 'GET-USERS': {
       const stateCopy = {
         ...state,
-        users: [...action.users],
+        users: [
+          ...action.users.map((user: any) => {
+            // eslint-disable-next-line no-param-reassign
+            user.loginDate = moment(user.loginDate).format('DD.MM.YYYY HH:MM');
+            // eslint-disable-next-line no-param-reassign
+            user.registerDate = moment(user.registerDate).format(
+              'DD.MM.YYYY HH:MM',
+            );
+
+            return user;
+          }),
+        ],
       };
 
       return stateCopy;
@@ -46,7 +45,12 @@ function userReducer(state = initState, action: any) {
         email: action.user.email,
         sex: action.user.sex,
         state: action.user.state,
-        meta: { ...action.user.meta },
+        meta: {
+          loginDate: moment(action.user.loginDate).format('DD.MM.YYYY HH:MM'),
+          registerDate: moment(action.user.registerDate).format(
+            'DD.MM.YYYY HH:MM',
+          ),
+        },
       };
 
       return stateCopy;
@@ -55,8 +59,8 @@ function userReducer(state = initState, action: any) {
       const stateCopy = {
         ...state,
         id: null,
-        firstName: null,
-        lastName: null,
+        firstName: '',
+        lastName: '',
         email: null,
         sex: null,
         state: null,
@@ -69,86 +73,28 @@ function userReducer(state = initState, action: any) {
 
       return stateCopy;
     }
+    case 'UPDATE-USERS-ACTION': {
+      const stateCopy = {
+        ...state,
+        users: [
+          ...action.users.map((user: any) => {
+            // eslint-disable-next-line no-param-reassign
+            user.loginDate = moment(user.loginDate).format('DD.MM.YYYY HH:MM');
+            // eslint-disable-next-line no-param-reassign
+            user.registerDate = moment(user.registerDate).format(
+              'DD.MM.YYYY HH:MM',
+            );
+
+            return user;
+          }),
+        ],
+      };
+
+      return stateCopy;
+    }
     default:
       return state;
   }
 }
-
-export const getAllUsers = (payload: any) => (dispatch: any) => {
-  requestAPI
-    .getUsers(payload)
-    .then((data: any) => {
-      dispatch(setUserInfo(data.targetUser));
-
-      dispatch(getUsers(data.users));
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
-export const blockMe = (id: any) => (dispatch: any) => {
-  requestAPI
-    .blockMe(id)
-    .then((data: any) => {
-      console.log(data);
-      dispatch(deleteUserInfo());
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
-
-export const blockUsers = (ids: any) => (dispatch: any) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
-  requestAPI
-    .block(ids)
-    .then((data: any) => {
-      console.log(data);
-      dispatch(getUsers(data.users));
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
-
-export const unblockUsers = (ids: any) => (dispatch: any) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
-  requestAPI
-    .unblock(ids)
-    .then((data: any) => {
-      console.log(data);
-      // need to get a new users array
-      dispatch(getUsers(data.users));
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
-
-export const deleteMe = (id: any) => (dispatch: any) => {
-  requestAPI
-    .deleteMe(id)
-    .then((data: any) => {
-      console.log(data);
-      dispatch(deleteUserInfo());
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
-
-export const deleteUsers = (ids: any) => (dispatch: any) => {
-  requestAPI
-    .deleteMe(ids)
-    .then((data: any) => {
-      console.log(data);
-      dispatch(getUsers(data.users));
-    })
-    .catch((err: any) => {
-      alert(err.response.data);
-    });
-};
 
 export default userReducer;

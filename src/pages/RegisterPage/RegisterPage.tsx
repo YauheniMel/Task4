@@ -11,7 +11,16 @@ import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
 import styles from './RegisterPage.module.scss';
 
-const RegisterPage: FC<any> = function ({ submit, onChange }) {
+const RegisterPage: FC<any> = function ({
+  submit,
+  onChange,
+  firstName,
+  lastName,
+  email,
+  sex,
+  login,
+  password,
+}) {
   return (
     <div className={classNames(styles.container, 'container')}>
       <div className={styles.wrapper}>
@@ -20,7 +29,7 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
       <form
         action=""
         className={styles.form}
-        autoComplete="off"
+        autoComplete="none"
         encType="multipart/form-data"
         onSubmit={submit}
       >
@@ -32,6 +41,7 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
             label="Name"
             name="firstName"
             autoFocus
+            value={firstName}
             fullWidth
             size="small"
           />
@@ -39,6 +49,7 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
             required
             onChange={onChange}
             label="Surname"
+            value={lastName}
             name="lastName"
             fullWidth
             size="small"
@@ -48,30 +59,37 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
             onChange={onChange}
             label="Login"
             name="login"
+            value={login}
             fullWidth
             size="small"
           />
           <TextField
             required
             onChange={onChange}
+            type="email"
             label="Email"
+            value={email}
             name="email"
             fullWidth
             size="small"
           />
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="male"
             name="sex"
             onChange={onChange}
+            value={sex}
           >
             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
             <FormControlLabel
+              value="male"
+              control={<Radio required />}
+              label="Male"
+            />
+            <FormControlLabel
               value="female"
-              control={<Radio />}
+              control={<Radio required />}
               label="Female"
             />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
           </RadioGroup>
           <TextField
             required
@@ -80,15 +98,7 @@ const RegisterPage: FC<any> = function ({ submit, onChange }) {
             name="password"
             onChange={onChange}
             size="small"
-            fullWidth
-          />
-          <TextField
-            required
-            label="Confirm password"
-            type="password"
-            name="confirm-password"
-            onChange={onChange}
-            size="small"
+            value={password}
             fullWidth
           />
           <div className={styles.action}>

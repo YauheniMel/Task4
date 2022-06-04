@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { connect } from 'react-redux';
-import { createUser, register } from '../../redux/reducers/auth-reducer';
+import {
+  createUserAction,
+  registerAction,
+} from '../../redux/actions/auth-action';
 import RegisterPage from './RegisterPage';
 
 const RegisterPageApiContainer: FC<any> = function ({
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   register,
   firstName,
   lastName,
@@ -12,7 +14,6 @@ const RegisterPageApiContainer: FC<any> = function ({
   sex,
   login,
   password,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   createUser,
 }) {
   function handleSubmit(event: any) {
@@ -25,13 +26,24 @@ const RegisterPageApiContainer: FC<any> = function ({
       sex,
       login,
       password,
-      state: 'active',
+      state: 'online',
     };
 
     register(userInfo);
   }
 
-  return <RegisterPage submit={handleSubmit} onChange={createUser} />;
+  return (
+    <RegisterPage
+      submit={handleSubmit}
+      onChange={createUser}
+      firstName={firstName}
+      lastName={lastName}
+      email={email}
+      sex={sex}
+      login={login}
+      password={password}
+    />
+  );
 };
 
 function mapStateToProps(state: any) {
@@ -48,13 +60,13 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     register: (userInfo: any) => {
-      const action = register(userInfo);
+      const action = registerAction(userInfo);
 
       dispatch(action);
     },
     createUser: (event: any) => {
       const { value, name } = event.currentTarget;
-      const action = createUser({
+      const action = createUserAction({
         [name]: value,
       });
 

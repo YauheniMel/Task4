@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { connect } from 'react-redux';
+import { CredentialsType } from '../../interfaces';
 import {
-  createUserLogin,
-  createUserPassword,
-  login,
-} from '../../redux/reducers/auth-reducer';
+  createUserLoginAction,
+  createUserPasswordAction,
+  loginAction,
+} from '../../redux/actions/auth-action';
+
 import LoginPage from './LoginPage';
 
 const LoginPageApiContainer: FC<any> = function ({
@@ -12,10 +14,9 @@ const LoginPageApiContainer: FC<any> = function ({
   passwordValue,
   setPassword,
   setLogin,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   login,
 }) {
-  function handleSubmit(event: any) {
+  function handleSubmit(event: Event) {
     event.preventDefault();
 
     const credentials = {
@@ -39,8 +40,8 @@ const LoginPageApiContainer: FC<any> = function ({
 
 function mapStateToProps(state: any) {
   return {
-    loginValue: state.auth.loginValue,
-    passwordValue: state.auth.passwordValue,
+    loginValue: state.auth.login,
+    passwordValue: state.auth.password,
   };
 }
 
@@ -49,18 +50,14 @@ function mapDispatchToProps(dispatch: any) {
     setPassword: (event: any) => {
       const { value } = event.currentTarget;
 
-      const action = createUserPassword(value);
-
-      dispatch(action);
+      dispatch(createUserPasswordAction(value));
     },
     setLogin: (event: any) => {
       const { value } = event.currentTarget;
 
-      const action = createUserLogin(value);
-
-      dispatch(action);
+      dispatch(createUserLoginAction(value));
     },
-    login: (credentials: any) => dispatch(login(credentials)),
+    login: (credentials: CredentialsType) => dispatch(loginAction(credentials)),
   };
 }
 
