@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -62,8 +63,7 @@
     "**/*.{tsx,ts,md,js,jsx}": "npx prettier --write"
   },
   "scripts": {
-    "heroku-postbuilder": "cd client && npm install && npm run build",
-    "start": "node server.js",
+    "start": "react-scripts --max-http-header-size=1024 start",
     "build": "react-scripts build",
     "server": "nodemon ./src/server/index.js --prefix client",
     "dev": "concurrently \"npm start\" \"npm run server\"",
