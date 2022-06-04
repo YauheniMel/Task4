@@ -5,7 +5,7 @@ import {
   createUserLoginAction,
   createUserPasswordAction,
   loginAction,
-} from '../../redux/reducers/auth-reducer';
+} from '../../redux/actions/auth-action';
 
 import LoginPage from './LoginPage';
 
@@ -40,8 +40,8 @@ const LoginPageApiContainer: FC<any> = function ({
 
 function mapStateToProps(state: any) {
   return {
-    loginValue: state.auth.loginValue,
-    passwordValue: state.auth.passwordValue,
+    loginValue: state.auth.login,
+    passwordValue: state.auth.password,
   };
 }
 

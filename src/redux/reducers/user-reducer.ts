@@ -1,23 +1,4 @@
 import moment from 'moment';
-import { toast } from 'react-toastify';
-import requestAPI from '../../api/api';
-import { UserType } from '../../interfaces';
-
-export const getUsersAction = (users: any) => ({
-  type: 'GET-USERS',
-  users,
-});
-export const setUserInfoAction = (user: any) => ({
-  type: 'SET-USER-INFO',
-  user,
-});
-export const deleteUserInfoAction = () => ({
-  type: 'DELETE-USER-INFO',
-});
-export const updateUsersAction = (users: UserType[]) => ({
-  type: 'UPDATE-USERS-ACTION',
-  users,
-});
 
 const initState = {
   id: null,
@@ -115,72 +96,5 @@ function userReducer(state = initState, action: any) {
       return state;
   }
 }
-
-export const getAllUsersAction = (payload: any) => (dispatch: any) => {
-  requestAPI
-    .getUsers(payload)
-    .then((data: any) => {
-      dispatch(setUserInfoAction(data.targetUser));
-
-      dispatch(getUsersAction(data.users));
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
-export const blockMeAction = (id: any) => (dispatch: any) => {
-  requestAPI
-    .blockMe(id)
-    .then(() => {
-      dispatch(deleteUserInfoAction());
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
-
-export const blockUsersAction = (ids: any) => () => {
-  requestAPI
-    .block(ids)
-    .then((data: any) => {
-      toast.success(data);
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
-
-export const unblockUsersAction = (ids: any) => () => {
-  requestAPI
-    .unblock(ids)
-    .then((data: any) => {
-      toast.success(data);
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
-
-export const deleteMeAction = (id: any) => (dispatch: any) => {
-  requestAPI
-    .deleteMe(id)
-    .then(() => {
-      dispatch(deleteUserInfoAction());
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
-
-export const deleteUsersAction = (ids: any) => () => {
-  requestAPI
-    .deleteMe(ids)
-    .then((data: any) => {
-      toast.success(data);
-    })
-    .catch((err: any) => {
-      toast.error(err.message);
-    });
-};
 
 export default userReducer;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   createUserAction,
   registerAction,
-} from '../../redux/reducers/auth-reducer';
+} from '../../redux/actions/auth-action';
 import RegisterPage from './RegisterPage';
 
 const RegisterPageApiContainer: FC<any> = function ({
@@ -32,7 +32,18 @@ const RegisterPageApiContainer: FC<any> = function ({
     register(userInfo);
   }
 
-  return <RegisterPage submit={handleSubmit} onChange={createUser} />;
+  return (
+    <RegisterPage
+      submit={handleSubmit}
+      onChange={createUser}
+      firstName={firstName}
+      lastName={lastName}
+      email={email}
+      sex={sex}
+      login={login}
+      password={password}
+    />
+  );
 };
 
 function mapStateToProps(state: any) {

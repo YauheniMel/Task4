@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { UserType } from '../../interfaces';
-import {
-  loginUserAction,
-  logoutAction,
-} from '../../redux/reducers/auth-reducer';
+import { loginUserAction, logoutAction } from '../../redux/actions/auth-action';
 import {
   blockMeAction,
   blockUsersAction,
@@ -16,7 +13,8 @@ import {
   getAllUsersAction,
   unblockUsersAction,
   updateUsersAction,
-} from '../../redux/reducers/user-reducer';
+} from '../../redux/actions/user-action';
+
 import checkSessionStorage from '../../services/checkSessionStorage';
 import MainPage from './MainPage';
 

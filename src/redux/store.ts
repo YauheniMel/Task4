@@ -15,4 +15,10 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
+declare global {
+  interface Window {
+    store: any;
+  }
+}
+window.store = store;
 export default store;

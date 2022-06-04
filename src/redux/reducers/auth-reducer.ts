@@ -1,27 +1,11 @@
-import { toast } from 'react-toastify';
-import requestAPI from '../../api/api';
-import { CredentialsType } from '../../interfaces';
-import logout from '../../services/logout';
-
-export const loginUserAction = () => ({ type: 'LOGIN-USER' });
-export const logoutUserAction = () => ({ type: 'LOGOUT-USER' });
-export const createUserLoginAction = (login: any) => ({
-  type: 'CREATE-USER-LOGIN',
-  login,
-});
-export const createUserPasswordAction = (password: any) => ({
-  type: 'CREATE-USER-PASSWORD',
-  password,
-});
-export const createUserAction = (value: any) => ({
-  type: 'CREATE-USER',
-  value,
-});
-
 const initState = {
   isAuth: false,
-  loginValue: '',
-  passwordValue: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  sex: '',
+  login: '',
+  password: '',
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -30,7 +14,7 @@ function authReducer(state = initState, action: any) {
     case 'CREATE-USER-LOGIN': {
       const stateCopy = {
         ...state,
-        loginValue: action.login,
+        login: action.login,
       };
 
       return stateCopy;
@@ -38,7 +22,7 @@ function authReducer(state = initState, action: any) {
     case 'CREATE-USER-PASSWORD': {
       const stateCopy = {
         ...state,
-        passwordValue: action.password,
+        password: action.password,
       };
 
       return stateCopy;
@@ -49,9 +33,6 @@ function authReducer(state = initState, action: any) {
         ...action.value,
       };
 
-      stateCopy.loginValue = '';
-      stateCopy.passwordValue = '';
-
       return stateCopy;
     }
     case 'LOGIN-USER': {
@@ -60,8 +41,19 @@ function authReducer(state = initState, action: any) {
         isAuth: true,
       };
 
-      stateCopy.loginValue = '';
-      stateCopy.passwordValue = '';
+      stateCopy.login = '';
+      stateCopy.password = '';
+
+      return stateCopy;
+    }
+    case 'REGISTER-USER': {
+      const stateCopy = {
+        ...state,
+        isAuth: true,
+      };
+
+      stateCopy.login = '';
+      stateCopy.password = '';
 
       return stateCopy;
     }
@@ -77,48 +69,5 @@ function authReducer(state = initState, action: any) {
       return state;
   }
 }
-
-export const loginAction = (credentials: CredentialsType) => (dispatch: any) => {
-  requestAPI
-    .login(credentials)
-    .then((data: any) => {
-      dispatch(loginUserAction());
-      toast.success(`Hello ${data.targetUser.firstName}`);
-
-      sessionStorage.setItem('token', data.token);
-      sessionStorage.setItem('login', data.targetUser.login);
-    })
-    .catch((err: any) => {
-      toast.error(err.response.data);
-    });
-};
-
-export const registerAction = (userInfo: any) => (dispatch: any) => {
-  requestAPI
-    .register(userInfo)
-    .then((data: any) => {
-      dispatch(createUserAction(data.targetUser));
-      dispatch(loginUserAction());
-      toast.success(`Hello ${data.targetUser.firstName}`);
-      sessionStorage.setItem('token', data.token);
-      sessionStorage.setItem('login', data.targetUser.login);
-    })
-    .catch((err: any) => {
-      toast.error(err.response.data);
-    });
-};
-
-export const logoutAction = (payload: { id: number; status: string }) => (dispatch: any) => {
-  requestAPI
-    .logout(payload)
-    .then((data: any) => {
-      toast.success(data);
-      dispatch(logoutUserAction());
-      logout();
-    })
-    .catch((err: any) => {
-      toast.error(err.response.data);
-    });
-};
 
 export default authReducer;

@@ -88,10 +88,6 @@ router.put('/api/login', timeout, async (req, res) => {
         return res.status(400).send('This user was blocked!');
       }
 
-      if (targetUser.state === 'online') {
-        return res.status(400).send("You're already online!");
-      }
-
       targetUser.loginDate = moment().format();
       targetUser.state = 'online';
 
