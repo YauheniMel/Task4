@@ -52,21 +52,29 @@ const MainPageApiContainer: FC<any> = function ({
       );
       if (!targetUser) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        window.addEventListener('click', handlePolicy);
+        window.addEventListener('click', handlePolicy, {
+          capture: true,
+          once: true,
+        });
       } else if (targetUser.state === 'blocked') {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        window.addEventListener('click', handlePolicy);
+        window.addEventListener('click', handlePolicy, {
+          capture: true,
+          once: true,
+        });
       }
     }
   }, [newUsers]);
 
-  async function handlePolicy() {
+  async function handlePolicy(event: any) {
+    event.stopPropagation();
+
     try {
-      await logoutUser(id);
+      await logoutUser(id, 'blocked');
 
       deleteUserInfo();
 
-      window.removeEventListener('click', handlePolicy);
+      window.removeEventListener('click', handlePolicy, { capture: true });
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -152,8 +160,8 @@ function mapDispatchToProps(dispatch: any) {
 
       dispatch(action);
     },
-    logoutUser: (id: number) => {
-      const action = logoutAction(id);
+    logoutUser: (id: number, status: string) => {
+      const action = logoutAction({ id, status });
 
       dispatch(action);
     },

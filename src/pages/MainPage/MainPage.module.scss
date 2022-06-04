@@ -6,6 +6,16 @@
   height: 100vh;
 }
 
+.profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5rem;
+  background-color: $white;
+  border-radius: 16px 8px 8px 16px;
+}
+
 header {
   padding: 1rem;
   background-color: $primary-color-light;
@@ -19,7 +29,7 @@ header {
 
   strong {
     font-size: 1.2rem;
-    color: $white;
+    color: $primary-color-light;
   }
 }
 

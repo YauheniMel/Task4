@@ -78,8 +78,8 @@ function userReducer(state = initState, action: any) {
       const stateCopy = {
         ...state,
         id: null,
-        firstName: null,
-        lastName: null,
+        firstName: '',
+        lastName: '',
         email: null,
         sex: null,
         state: null,
@@ -131,9 +131,7 @@ export const getAllUsersAction = (payload: any) => (dispatch: any) => {
 export const blockMeAction = (id: any) => (dispatch: any) => {
   requestAPI
     .blockMe(id)
-    .then((data: any) => {
-      toast.success(data);
-
+    .then(() => {
       dispatch(deleteUserInfoAction());
     })
     .catch((err: any) => {
@@ -166,9 +164,7 @@ export const unblockUsersAction = (ids: any) => () => {
 export const deleteMeAction = (id: any) => (dispatch: any) => {
   requestAPI
     .deleteMe(id)
-    .then((data: any) => {
-      toast.success(data);
-
+    .then(() => {
       dispatch(deleteUserInfoAction());
     })
     .catch((err: any) => {

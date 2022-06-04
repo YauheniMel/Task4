@@ -108,9 +108,9 @@ export const registerAction = (userInfo: any) => (dispatch: any) => {
     });
 };
 
-export const logoutAction = (id: number) => (dispatch: any) => {
+export const logoutAction = (payload: { id: number; status: string }) => (dispatch: any) => {
   requestAPI
-    .logout(id)
+    .logout(payload)
     .then((data: any) => {
       toast.success(data);
       dispatch(logoutUserAction());

@@ -30,8 +30,10 @@ const requestAPI = {
   delete(ids: number[]) {
     return axios.delete(`/api/del/${ids}`).then((response) => response.data);
   },
-  logout(id: number) {
-    return axios.post('/api/logout', { id }).then((response) => response.data);
+  logout(payload: { id: number; status: string }) {
+    return axios
+      .post('/api/logout', { ...payload })
+      .then((response) => response.data);
   },
 };
 

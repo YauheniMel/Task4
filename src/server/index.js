@@ -6,6 +6,7 @@ const { Router } = require('express');
 // eslint-disable-next-line import/order
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
+const moment = require('moment');
 const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
@@ -91,7 +92,7 @@ router.put('/api/login', timeout, async (req, res) => {
         return res.status(400).send("You're already online!");
       }
 
-      targetUser.loginDate = new Date();
+      targetUser.loginDate = moment().format();
       targetUser.state = 'online';
 
       connection.query(
@@ -154,6 +155,10 @@ router.put('/api/block', timeout, (req, res) => {
 router.put('/api/unblock', timeout, (req, res) => {
   const command = updater.unblockUsers(req.body);
 
+  if (!req.body.length) {
+    return res.status(200).send('Unblocked successfully!');
+  }
+
   try {
     connection.query(command, (error) => {
       if (error) throw new Error(error);
@@ -175,7 +180,6 @@ router.put('/api/unblock', timeout, (req, res) => {
 
 router.post('/api/register', timeout, (req, res) => {
   try {
-    console.log(req.body);
     // eslint-disable-next-line consistent-return
     connection.query('SELECT * FROM users', (err, results) => {
       if (err) throw new Error(err);
@@ -189,8 +193,8 @@ router.post('/api/register', timeout, (req, res) => {
       connection.query(
         inserter({
           ...req.body,
-          registerDate: new Date(),
-          loginDate: new Date(),
+          registerDate: moment().format(),
+          loginDate: moment().format(),
         }),
         (error) => {
           if (error) throw new Error(error);
@@ -252,8 +256,15 @@ router.delete('/api/del/:ids', timeout, (req, res) => {
 
 router.post('/api/logout', timeout, (req, res) => {
   const { id } = req.body;
+  const { status } = req.body;
 
-  const command = updater.offline(id);
+  console.log(status);
+  let command;
+  if (status !== 'blocked') {
+    command = updater.offline(id);
+  } else {
+    command = updater.blockMe(id);
+  }
 
   try {
     connection.query(command, (err) => {

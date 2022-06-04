@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import classNames from 'classnames';
 import { Tooltip } from '@mui/material';
 import { toast } from 'react-toastify';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from './MainPage.module.scss';
 import ToolBar from '../../components/ToolBar/ToolBar';
 import Table from '../../components/Table/Table';
@@ -23,10 +24,13 @@ const MainPage: FC<any> = function ({
   setIsFetching,
 }) {
   const [selectRows, setSelectRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleClick() {
+    setIsLoading(true);
     try {
-      await logoutUser(id);
+      // eslint-disable-next-line no-restricted-globals
+      await logoutUser(id, status);
 
       deleteUserInfo();
     } catch (err: any) {
@@ -35,20 +39,23 @@ const MainPage: FC<any> = function ({
   }
 
   async function handleBlockMe() {
+    setIsLoading(true);
     try {
+      // eslint-disable-next-line no-restricted-globals
+      await logoutUser(id, status);
       await blockMe(id);
-
-      await logoutUser(id);
     } catch (err: any) {
       toast.error(err.message);
     }
   }
 
   async function handleDeleteMe() {
+    setIsLoading(true);
     try {
       await deleteMe(id);
 
-      await logoutUser(id);
+      // eslint-disable-next-line no-restricted-globals
+      await logoutUser(id, status);
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -65,7 +72,10 @@ const MainPage: FC<any> = function ({
   }
   async function handleUnblockUsers() {
     try {
-      await unblockUsers(selectRows);
+      // eslint-disable-next-line array-callback-return
+      const rows = selectRows.filter((row) => users.find((user: any) => user.id === row && user.state !== 'online'));
+
+      await unblockUsers(rows);
 
       setIsFetching(true);
     } catch (err: any) {
@@ -87,13 +97,17 @@ const MainPage: FC<any> = function ({
     <div className={styles.wrapper}>
       <header>
         <div className={classNames(styles.container, 'container')}>
-          <strong>{`${firstName} ${lastName}`}</strong>
+          <div className={styles.profile}>
+            <AccountCircleIcon fontSize="large" />
+            <strong>{`${firstName} ${lastName}`}</strong>
+          </div>
           <div>
             <Tooltip title="Block my account" arrow>
               <Button
                 sx={{ marginRight: 4 }}
                 variant="contained"
                 onClick={handleBlockMe}
+                disabled={isLoading}
               >
                 Block me
               </Button>
@@ -103,11 +117,16 @@ const MainPage: FC<any> = function ({
                 sx={{ marginRight: 4 }}
                 variant="contained"
                 onClick={handleDeleteMe}
+                disabled={isLoading}
               >
                 Remove me
               </Button>
             </Tooltip>
-            <Button onClick={handleClick} color="secondary">
+            <Button
+              onClick={handleClick}
+              color="secondary"
+              disabled={isLoading}
+            >
               LogOut
             </Button>
           </div>
