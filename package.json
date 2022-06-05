@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000/",
-  "engines": {
-    "node": "16.13.2"
-  },
+  "homepage": "http://mywebsite.com/relativepath",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -24,6 +22,7 @@
     "classnames": "^2.3.1",
     "concurrently": "^7.2.1",
     "cors": "^2.8.5",
+    "eslint-plugin-html": "^6.2.0",
     "express": "^4.18.1",
     "gh-pages": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
@@ -69,7 +68,7 @@
   "scripts": {
     "start": "react-scripts --max-http-header-size=1024 start",
     "build": "react-scripts build",
-    "server": "nodemon ./src/server/index.js --prefix client",
+    "server": "node ./src/server/index.js",
     "dev": "concurrently \"npm start\" \"npm run server\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

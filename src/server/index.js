@@ -8,6 +8,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const moment = require('moment');
+const path = require('path');
 const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
@@ -35,7 +36,7 @@ app.use(
 
 app.use(cors());
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../', '../', 'public')));
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
@@ -54,6 +55,10 @@ const connection = mysql.createConnection({
 });
 
 const router = Router();
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
+});
 
 router.post('/api/users', timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
