@@ -3,6 +3,7 @@ const express = require('express');
 const socketIo = require('socket.io');
 const http = require('http');
 const { Router } = require('express');
+const cors = require('cors');
 // eslint-disable-next-line import/order
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
@@ -31,6 +32,10 @@ app.use(
     extended: true,
   }),
 );
+
+app.use(cors());
+
+app.use(express.static('../../build/index.html'));
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
