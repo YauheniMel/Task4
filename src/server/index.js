@@ -3,7 +3,6 @@ const express = require('express');
 const socketIo = require('socket.io');
 const http = require('http');
 const { Router } = require('express');
-const cors = require('cors');
 // eslint-disable-next-line import/order
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
@@ -16,13 +15,12 @@ const remover = require('./service/remover');
 const port = process.env.PORT || 5000;
 
 const app = express();
-app.use(cors());
 
 const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: 'https://task-deploy-4.herokuapp.com',
+    origin: '*',
   },
 });
 
