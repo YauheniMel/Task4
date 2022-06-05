@@ -49,7 +49,7 @@ const connection = mysql.createConnection({
   password: 'melnik123',
   multipleStatements: true,
 });
-
+const baseURL = 'https://task-deploy-4.herokuapp.com';
 const router = Router();
 
 app.use(express.static(path.join(__dirname, '../../build')));
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
 });
 
-router.post('/api/users', timeout, (req, res) => {
+router.post(`${baseURL}/api/users`, timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const { login, token } = req.body;
   connection.query('SELECT * FROM users', (err, results) => {
@@ -75,7 +75,7 @@ router.post('/api/users', timeout, (req, res) => {
   });
 });
 
-router.put('/api/login', timeout, async (req, res) => {
+router.put(`${baseURL}/api/login`, timeout, async (req, res) => {
   const { loginValue, passwordValue } = req.body;
 
   try {
@@ -127,7 +127,7 @@ router.put('/api/login', timeout, async (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-router.put('/api/block', timeout, (req, res) => {
+router.put(`${baseURL}/api/block`, timeout, (req, res) => {
   let command;
   if (Array.isArray(req.body)) {
     command = updater.blockUsers(req.body);
@@ -156,7 +156,7 @@ router.put('/api/block', timeout, (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-router.put('/api/unblock', timeout, (req, res) => {
+router.put(`${baseURL}/api/unblock`, timeout, (req, res) => {
   const command = updater.unblockUsers(req.body);
 
   if (!req.body.length) {
@@ -182,7 +182,7 @@ router.put('/api/unblock', timeout, (req, res) => {
   }
 });
 
-router.post('/api/register', timeout, (req, res) => {
+router.post(`${baseURL}/api/register`, timeout, (req, res) => {
   try {
     // eslint-disable-next-line consistent-return
     connection.query('SELECT * FROM users', (err, results) => {
@@ -231,7 +231,7 @@ router.post('/api/register', timeout, (req, res) => {
   return [];
 });
 
-router.delete('/api/del/:ids', timeout, (req, res) => {
+router.delete(`${baseURL}/api/del/:ids`, timeout, (req, res) => {
   let command;
   const ids = req.params.ids.split(',');
 
@@ -258,7 +258,7 @@ router.delete('/api/del/:ids', timeout, (req, res) => {
   }
 });
 
-router.post('/api/logout', timeout, (req, res) => {
+router.post(`${baseURL}/api/logout`, timeout, (req, res) => {
   const { id } = req.body;
   const { status } = req.body;
 
