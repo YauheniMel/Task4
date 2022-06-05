@@ -16,6 +16,8 @@ const remover = require('./service/remover');
 const port = process.env.PORT || 5000;
 
 const app = express();
+app.use(cors());
+
 const server = http.createServer(app);
 
 const io = socketIo(server, {
@@ -33,8 +35,6 @@ app.use(
     extended: true,
   }),
 );
-
-app.use(cors());
 
 app.use(express.static(path.join(__dirname, '../', '../', 'public')));
 
@@ -56,7 +56,7 @@ const connection = mysql.createConnection({
 
 const router = Router();
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
 });
 
