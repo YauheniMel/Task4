@@ -22,7 +22,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: '*',
+    origin: 'https://task-deploy-4.herokuapp.com/api/login',
   },
 });
 
@@ -36,7 +36,7 @@ app.use(
   }),
 );
 
-app.use(express.static(path.join(__dirname, '../', '../', 'public')));
+app.use(express.static('public'));
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
@@ -56,7 +56,7 @@ const connection = mysql.createConnection({
 
 const router = Router();
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
 });
 
