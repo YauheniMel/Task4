@@ -22,7 +22,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: 'https://astounding-pudding-0e5ff5.netlify.app',
+    origin: '*',
   },
 });
 
