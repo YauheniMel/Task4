@@ -35,7 +35,7 @@ app.use(
 
 app.use(cors());
 
-app.use(express.static('../../build/index.html'));
+app.use(express.static('public'));
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
