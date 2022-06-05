@@ -80,7 +80,7 @@
     "prettier": "prettier --check \"{,!(node_modules)/**/}*.{tsx,ts,css,scss,md,js,jsx}\"",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{tsx,ts,md,js,jsx}\" && eslint src/**/*.{tsx,ts,md,js,jsx} --fix",
     "prepare": "husky install",
-    "heroku-postbuild": "ng build --prod"
+    "heroku-postbuild": "npm run build --prod"
   },
   "eslintConfig": {
     "extends": [
