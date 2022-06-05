@@ -39,10 +39,6 @@ app.use(
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
-const timeout = (req, res, next) => {
-  setTimeout(() => next(), 500);
-};
-
 const db = require('./data/users');
 
 const connection = mysql.createConnection({
@@ -61,7 +57,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
 });
 
-router.post('/api/users', timeout, (req, res) => {
+router.post('/api/users', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const { login, token } = req.body;
   connection.query('SELECT * FROM users', (err, results) => {
@@ -78,7 +74,7 @@ router.post('/api/users', timeout, (req, res) => {
   });
 });
 
-router.put('/api/login', timeout, async (req, res) => {
+router.put('/api/login', async (req, res) => {
   const { loginValue, passwordValue } = req.body;
 
   try {
@@ -130,7 +126,7 @@ router.put('/api/login', timeout, async (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-router.put('/api/block', timeout, (req, res) => {
+router.put('/api/block', (req, res) => {
   let command;
   if (Array.isArray(req.body)) {
     command = updater.blockUsers(req.body);
@@ -159,7 +155,7 @@ router.put('/api/block', timeout, (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-router.put('/api/unblock', timeout, (req, res) => {
+router.put('/api/unblock', (req, res) => {
   const command = updater.unblockUsers(req.body);
 
   if (!req.body.length) {
@@ -185,7 +181,7 @@ router.put('/api/unblock', timeout, (req, res) => {
   }
 });
 
-router.post('/api/register', timeout, (req, res) => {
+router.post('/api/register', (req, res) => {
   try {
     // eslint-disable-next-line consistent-return
     connection.query('SELECT * FROM users', (err, results) => {
@@ -234,7 +230,7 @@ router.post('/api/register', timeout, (req, res) => {
   return [];
 });
 
-router.delete('/api/del/:ids', timeout, (req, res) => {
+router.delete('/api/del/:ids', (req, res) => {
   let command;
   const ids = req.params.ids.split(',');
 
@@ -261,7 +257,7 @@ router.delete('/api/del/:ids', timeout, (req, res) => {
   }
 });
 
-router.post('/api/logout', timeout, (req, res) => {
+router.post('/api/logout', (req, res) => {
   const { id } = req.body;
   const { status } = req.body;
 
