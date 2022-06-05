@@ -69,7 +69,7 @@
     "**/*.{tsx,ts,md,js,jsx}": "npx prettier --write"
   },
   "scripts": {
-    "start": "react-scripts --max-http-header-size=1024 start",
+    "start": "node ./src/server/index.js",
     "build": "react-scripts build",
     "server": "node ./src/server/index.js",
     "dev": "concurrently \"npm start\" \"npm run server\"",
