@@ -36,8 +36,6 @@ app.use(
   }),
 );
 
-app.use(express.static('public'));
-
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
 const timeout = (req, res, next) => {
@@ -55,6 +53,8 @@ const connection = mysql.createConnection({
 });
 
 const router = Router();
+
+app.use(express.static(path.join(__dirname, '../../build')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
