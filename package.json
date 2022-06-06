@@ -67,9 +67,9 @@
     "**/*.{tsx,ts,md,js,jsx}": "npx prettier --write"
   },
   "scripts": {
-    "start": "node ./src/server/index.js",
+    "start": "node ./server/index.js",
     "build": "react-scripts build",
-    "server": "node ./src/server/index.js --prefix client",
+    "server": "node ./server/index.js --prefix client",
     "dev": "concurrently \"npm start\" \"npm run server\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

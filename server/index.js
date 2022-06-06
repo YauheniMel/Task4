@@ -23,8 +23,8 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: '*',
-  },
+    origin: '*'
+  }
 });
 
 io.on('connection', (socket) => {
@@ -33,8 +33,8 @@ io.on('connection', (socket) => {
 
 app.use(
   bodyParser.urlencoded({
-    extended: true,
-  }),
+    extended: true
+  })
 );
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
@@ -46,12 +46,12 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'usersdb',
   password: 'melnik123',
-  multipleStatements: true,
+  multipleStatements: true
 });
 
 const router = Router();
 
-app.use(express.static(path.join(__dirname, '../../build')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 router.post('/api/users', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -65,7 +65,7 @@ router.post('/api/users', (req, res) => {
     users = users.filter((user) => user !== targetUser);
     return res.status(200).json({
       users: db(users),
-      targetUser,
+      targetUser
     });
   });
 });
@@ -81,7 +81,7 @@ router.put('/api/login', async (req, res) => {
       const users = Object.values(JSON.parse(JSON.stringify(results)));
 
       const targetUser = users.find(
-        (user) => user.login === loginValue && user.password === passwordValue,
+        (user) => user.login === loginValue && user.password === passwordValue
       );
       if (!targetUser) {
         return res.status(400).send('Login incorrect!');
@@ -97,7 +97,7 @@ router.put('/api/login', async (req, res) => {
       connection.query(
         `${updater.loginDate(
           targetUser.loginDate,
-          targetUser.id,
+          targetUser.id
         )} ${updater.online(targetUser.id)}`,
         (error) => {
           if (error) throw new Error(error);
@@ -111,9 +111,9 @@ router.put('/api/login', async (req, res) => {
           return res.status(200).json({
             token,
             targetUser,
-            users: db(users),
+            users: db(users)
           });
-        },
+        }
       );
     });
   } catch (err) {
@@ -193,7 +193,7 @@ router.post('/api/register', (req, res) => {
         inserter({
           ...req.body,
           registerDate: moment().format(),
-          loginDate: moment().format(),
+          loginDate: moment().format()
         }),
         (error) => {
           if (error) throw new Error(error);
@@ -204,8 +204,9 @@ router.post('/api/register', (req, res) => {
             const newUsers = Object.values(JSON.parse(JSON.stringify(result)));
 
             const targetUser = newUsers.find(
-              (user) => user.login === req.body.login
-                && user.password === req.body.password,
+              (user) =>
+                user.login === req.body.login &&
+                user.password === req.body.password
             );
 
             io.to('update').emit('time', JSON.stringify(newUsers));
@@ -213,10 +214,10 @@ router.post('/api/register', (req, res) => {
             return res.status(200).json({
               token,
               targetUser,
-              users: db(users),
+              users: db(users)
             });
           });
-        },
+        }
       );
     });
   } catch (err) {
@@ -284,7 +285,7 @@ router.post('/api/logout', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../', 'public', 'index.html'));
 });
 
 app.use(bodyParser.json());
