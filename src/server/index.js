@@ -279,6 +279,7 @@ router.post('/api/logout', (req, res) => {
 
         io.to('update').emit('time', JSON.stringify(newUsers));
       });
+
       return res.status(200).send('Bye-Bye!');
     });
   } catch (err) {
