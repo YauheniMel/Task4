@@ -5,7 +5,7 @@
   "engines": {
     "node": "16.13.2"
   },
-  "proxy": "http://localhost:5000/",
+  "proxy": "https://task-deploy-4.herokuapp.com/",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
