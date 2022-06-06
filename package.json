@@ -30,7 +30,6 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.16",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -70,7 +69,7 @@
   "scripts": {
     "start": "node ./src/server/index.js",
     "build": "react-scripts build",
-    "server": "nodemon ./src/server/index.js --prefix client",
+    "server": "node ./src/server/index.js --prefix client",
     "dev": "concurrently \"npm start\" \"npm run server\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
