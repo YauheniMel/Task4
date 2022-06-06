@@ -5,7 +5,7 @@
   "engines": {
     "node": "16.13.2"
   },
-  "proxy": "https://task-4-deploy.herokuapp.com/",
+  "proxy": "https://git.heroku.com/task-4-deploy.git",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
