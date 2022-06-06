@@ -53,10 +53,6 @@ const router = Router();
 
 app.use(express.static(path.join(__dirname, '../../build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
-});
-
 router.post('/api/users', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const { login, token } = req.body;
@@ -285,6 +281,10 @@ router.post('/api/logout', (req, res) => {
   } catch (err) {
     res.status(400).send(`Logout failed: ${err.message}`);
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../', '../', 'public', 'index.html'));
 });
 
 app.use(bodyParser.json());
