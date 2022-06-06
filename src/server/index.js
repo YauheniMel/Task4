@@ -42,10 +42,10 @@ const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 const db = require('./data/users');
 
 const connection = mysql.createConnection({
-  host: 'eu-cdbr-west-02.cleardb.net',
-  user: 'b8a972d05bf743',
-  database: 'heroku_aba8dee5148c04f',
-  password: '694b9b02',
+  host: 'localhost',
+  user: 'root',
+  database: 'usersdb',
+  password: 'melnik123',
   multipleStatements: true,
 });
 
