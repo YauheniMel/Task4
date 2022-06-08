@@ -2,10 +2,6 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "16.13.2"
-  },
-  "proxy": "https://task-4-deploy.herokuapp.com",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -29,7 +25,7 @@
     "gh-pages": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -63,11 +59,10 @@
   },
   "lint-staged": {
     "**/*.{tsx,ts,js,jsx}": "eslint --fix",
-    "**/*.{scss,css}": "npx stylelint --fix",
     "**/*.{tsx,ts,md,js,jsx}": "npx prettier --write"
   },
   "scripts": {
-    "start": "node ./server/index.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "server": "node ./server/index.js --prefix client",
     "dev": "concurrently \"npm start\" \"npm run server\"",
@@ -77,8 +72,7 @@
     "style": "stylelint **/*.{scss,css} -f verbose --fix",
     "prettier": "prettier --check \"{,!(node_modules)/**/}*.{tsx,ts,css,scss,md,js,jsx}\"",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{tsx,ts,md,js,jsx}\" && eslint src/**/*.{tsx,ts,md,js,jsx} --fix",
-    "prepare": "husky install",
-    "heroku-postbuild": "npm run build --prod"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [

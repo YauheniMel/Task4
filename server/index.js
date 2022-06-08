@@ -4,10 +4,9 @@ const socketIo = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 
-const { Router } = require('express');
-// eslint-disable-next-line import/order
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
+const { Router } = require('express');
+const mysql = require('mysql2');
 const moment = require('moment');
 const path = require('path');
 const inserter = require('./service/inserter');
@@ -21,9 +20,11 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+
 const io = socketIo(server, {
   cors: {
-    origin: '*'
+    origin: 'https://user-manager.onrender.com'
   }
 });
 
@@ -37,21 +38,26 @@ app.use(
   })
 );
 
-const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
-
 const db = require('./data/users');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'usersdb',
-  password: 'melnik123',
-  multipleStatements: true
+  host: 'bzbfbcm561htsvz994vk-mysql.services.clever-cloud.com',
+  user: 'ujrdxtvlt8zqr06a',
+  database: 'bzbfbcm561htsvz994vk',
+  password: 'EKo2AIbwvX1DHLuKqAOP',
+  multipleStatements: true,
+  connectionLimit: 100
 });
 
 const router = Router();
 
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, 'build')));
+
+connection.connect((err) => {
+  if (err) {
+    console.log('Error occurred', err);
+  }
+});
 
 router.post('/api/users', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -70,7 +76,7 @@ router.post('/api/users', (req, res) => {
   });
 });
 
-router.put('/api/login', async (req, res) => {
+router.put('/api/login', (req, res) => {
   const { loginValue, passwordValue } = req.body;
 
   try {
@@ -284,13 +290,16 @@ router.post('/api/logout', (req, res) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../', 'public', 'index.html'));
-});
-
 app.use(bodyParser.json());
 
 app.use(router);
+app.use(express.static(`${__dirname}./../build`));
+app.use(express.static(`${__dirname}./../build/static/js`));
+app.use(express.static(`${__dirname}./../build/static/css`));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './../build/index.html'));
+});
 
 server.listen(port, () => {
   console.log(`running on port ${port}`);

@@ -1,11 +1,11 @@
 enum Routes {
-  login = 'https://task-4-deploy.herokuapp.com/api/login',
-  register = 'https://task-4-deploy.herokuapp.com/api/register',
-  getUsers = 'https://task-4-deploy.herokuapp.com/api/users',
-  block = 'https://task-4-deploy.herokuapp.com/api/block/',
-  unblock = 'https://task-4-deploy.herokuapp.com/api/unblock/',
-  delete = 'https://task-4-deploy.herokuapp.com/api/del/',
-  logout = 'https://task-4-deploy.herokuapp.com/api/logout',
+  login = 'https://user-manager-back.onrender.com/api/login',
+  register = 'https://user-manager-back.onrender.com/api/register',
+  getUsers = 'https://user-manager-back.onrender.com/api/users',
+  block = 'https://user-manager-back.onrender.com/api/block/',
+  unblock = 'https://user-manager-back.onrender.com/api/unblock/',
+  delete = 'https://user-manager-back.onrender.com/api/del/',
+  logout = 'https://user-manager-back.onrender.com/api/logout',
 }
 
 export default Routes;

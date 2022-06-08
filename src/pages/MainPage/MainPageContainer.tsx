@@ -38,7 +38,7 @@ const MainPageApiContainer: FC<any> = function ({
   const [newUsers, setNewUsers] = useState();
 
   useEffect(() => {
-    const socket = io('http://localhost:3000/');
+    const socket = io('https://user-manager-back.onrender.com/');
 
     socket.on('time', (data) => setNewUsers(data));
     if (newUsers) {
