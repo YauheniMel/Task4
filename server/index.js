@@ -51,7 +51,7 @@ const connection = mysql.createConnection({
 
 const router = Router();
 
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 router.post('/api/users', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -285,7 +285,7 @@ router.post('/api/logout', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.use(bodyParser.json());
