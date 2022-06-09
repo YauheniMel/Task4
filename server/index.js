@@ -28,10 +28,10 @@ app.use('*', (req, res) => {
 });
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'bd7088f689a30d',
   database: 'usersdb',
-  password: 'melnik123',
+  password: 'b56b46ef',
   multipleStatements: true
 });
 
