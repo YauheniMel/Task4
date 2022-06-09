@@ -27,11 +27,19 @@ app.use('*', (req, res) => {
   res.sendFile('index.html', { root: __dirname + './../public/' });
 });
 
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'usersdb',
+  password: 'melnik123',
+  multipleStatements: true
+});
+
 const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: 'https://task-deploy-5.herokuapp.com/'
+    origin: '*'
   }
 });
 
@@ -53,13 +61,6 @@ const timeout = (req, res, next) => {
 
 const db = require('./data/users');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'usersdb',
-  password: 'melnik123',
-  multipleStatements: true
-});
 
 const router = Router();
 
