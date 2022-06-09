@@ -30,7 +30,7 @@ app.use('*', (req, res) => {
 const connection = mysql.createConnection({
   host: 'us-cdbr-east-05.cleardb.net',
   user: 'bd7088f689a30d',
-  database: 'usersdb',
+  database: 'heroku_e2d696a94e7c439',
   password: 'b56b46ef',
   multipleStatements: true
 });
