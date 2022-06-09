@@ -7,7 +7,7 @@ module.exports = ({
   sex,
   state,
   registerDate,
-  loginDate,
+  loginDate
 }) => `INSERT INTO users (
     firstName,
     lastName,

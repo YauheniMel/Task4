@@ -2,6 +2,10 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
+  "engines": {
+    "node": "16.13.2"
+  },
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -21,6 +25,7 @@
     "classnames": "^2.3.1",
     "concurrently": "^7.2.1",
     "express": "^4.18.1",
+    "express-favicon": "^2.0.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
@@ -57,22 +62,22 @@
     "typescript": "^4.7.2"
   },
   "lint-staged": {
-    "**/*.{tsx,ts,js,jsx}": "eslint --fix",
-    "**/*.{scss,css}": "npx stylelint --fix",
     "**/*.{tsx,ts,md,js,jsx}": "npx prettier --write"
   },
   "scripts": {
-    "start": "react-scripts --max-http-header-size=1024 start",
+    "start": "node ./server/index.js",
+    "run": "react-scripts --max-http-header-size=1024 start",
     "build": "react-scripts build",
-    "server": "nodemon ./src/server/index.js --prefix client",
-    "dev": "concurrently \"npm start\" \"npm run server\"",
+    "server": "nodemon ./server/index.js --prefix client",
+    "dev": "concurrently \"npm run run\" \"npm run server\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{js,jsx,tsx,ts}",
     "style": "stylelint **/*.{scss,css} -f verbose --fix",
     "prettier": "prettier --check \"{,!(node_modules)/**/}*.{tsx,ts,css,scss,md,js,jsx}\"",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{tsx,ts,md,js,jsx}\" && eslint src/**/*.{tsx,ts,md,js,jsx} --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "heroku-postbuild": "npm run build --prod"
   },
   "eslintConfig": {
     "extends": [

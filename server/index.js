@@ -1,9 +1,10 @@
-const bodyParser = require('body-parser');
 const express = require('express');
+const app = express();
+const port = process.env.PORT || 5000;
+const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
 const http = require('http');
 const { Router } = require('express');
-// eslint-disable-next-line import/order
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const moment = require('moment');
@@ -11,15 +12,20 @@ const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
 
-const port = process.env.PORT || 5000;
+app.use(express.static(__dirname + './../build'));
+app.use(express.static(__dirname + './../build/static/js'));
+app.use(express.static(__dirname + './../build/static/css'));
 
-const app = express();
+app.use('*', (req, res) => {
+  res.sendFile('index.html', { root: __dirname + './../public/' });
+});
+
 const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: '*',
-  },
+    origin: '*'
+  }
 });
 
 io.on('connection', (socket) => {
@@ -28,8 +34,8 @@ io.on('connection', (socket) => {
 
 app.use(
   bodyParser.urlencoded({
-    extended: true,
-  }),
+    extended: true
+  })
 );
 
 const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
@@ -45,10 +51,14 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'usersdb',
   password: 'melnik123',
-  multipleStatements: true,
+  multipleStatements: true
 });
 
 const router = Router();
+
+app.use(bodyParser.json());
+
+app.use(router);
 
 router.post('/api/users', timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -62,7 +72,7 @@ router.post('/api/users', timeout, (req, res) => {
     users = users.filter((user) => user !== targetUser);
     return res.status(200).json({
       users: db(users),
-      targetUser,
+      targetUser
     });
   });
 });
@@ -78,7 +88,7 @@ router.put('/api/login', timeout, async (req, res) => {
       const users = Object.values(JSON.parse(JSON.stringify(results)));
 
       const targetUser = users.find(
-        (user) => user.login === loginValue && user.password === passwordValue,
+        (user) => user.login === loginValue && user.password === passwordValue
       );
       if (!targetUser) {
         return res.status(400).send('Login incorrect!');
@@ -94,7 +104,7 @@ router.put('/api/login', timeout, async (req, res) => {
       connection.query(
         `${updater.loginDate(
           targetUser.loginDate,
-          targetUser.id,
+          targetUser.id
         )} ${updater.online(targetUser.id)}`,
         (error) => {
           if (error) throw new Error(error);
@@ -108,9 +118,9 @@ router.put('/api/login', timeout, async (req, res) => {
           return res.status(200).json({
             token,
             targetUser,
-            users: db(users),
+            users: db(users)
           });
-        },
+        }
       );
     });
   } catch (err) {
@@ -190,7 +200,7 @@ router.post('/api/register', timeout, (req, res) => {
         inserter({
           ...req.body,
           registerDate: moment().format(),
-          loginDate: moment().format(),
+          loginDate: moment().format()
         }),
         (error) => {
           if (error) throw new Error(error);
@@ -201,8 +211,9 @@ router.post('/api/register', timeout, (req, res) => {
             const newUsers = Object.values(JSON.parse(JSON.stringify(result)));
 
             const targetUser = newUsers.find(
-              (user) => user.login === req.body.login
-                && user.password === req.body.password,
+              (user) =>
+                user.login === req.body.login &&
+                user.password === req.body.password
             );
 
             io.to('update').emit('time', JSON.stringify(newUsers));
@@ -210,10 +221,10 @@ router.post('/api/register', timeout, (req, res) => {
             return res.status(200).json({
               token,
               targetUser,
-              users: db(users),
+              users: db(users)
             });
           });
-        },
+        }
       );
     });
   } catch (err) {
@@ -279,10 +290,6 @@ router.post('/api/logout', timeout, (req, res) => {
   }
 });
 
-app.use(bodyParser.json());
-
-app.use(router);
-
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`running on port ${port}`);
 });
