@@ -7,7 +7,7 @@ const Routes = {
   block: `${baseUrl}/api/block/`,
   unblock: `${baseUrl}/api/unblock/`,
   delete: `${baseUrl}/api/del/`,
-  logout: `${baseUrl}/api/logout`
+  logout: `${baseUrl}/api/logout`,
 };
 
 export default Routes;
