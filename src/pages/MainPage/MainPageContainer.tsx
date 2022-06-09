@@ -46,7 +46,7 @@ const MainPageApiContainer: FC<any> = function ({
         (user: UserType) => user.id === id,
       );
       updateUsers(
-        JSON.parse(newUsers).filter((user: UserType) => user.id !== id,)
+        JSON.parse(newUsers).filter((user: UserType) => user.id !== id),
       );
       if (!targetUser) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
