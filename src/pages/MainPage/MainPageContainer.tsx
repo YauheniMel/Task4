@@ -12,7 +12,7 @@ import {
   deleteUsersAction,
   getAllUsersAction,
   unblockUsersAction,
-  updateUsersAction
+  updateUsersAction,
 } from '../../redux/actions/user-action';
 
 import checkSessionStorage from '../../services/checkSessionStorage';
@@ -32,7 +32,7 @@ const MainPageApiContainer: FC<any> = function ({
   deleteUserInfo,
   logoutUser,
   status,
-  updateUsers
+  updateUsers,
 }) {
   const [isFetching, setIsFetching] = useState(false);
   const [newUsers, setNewUsers] = useState();
@@ -43,22 +43,22 @@ const MainPageApiContainer: FC<any> = function ({
     socket.on('time', (data) => setNewUsers(data));
     if (newUsers) {
       const [targetUser] = JSON.parse(newUsers).filter(
-        (user: UserType) => user.id === id
+        (user: UserType) => user.id === id,
       );
       updateUsers(
-        JSON.parse(newUsers).filter((user: UserType) => user.id !== id)
+        JSON.parse(newUsers).filter((user: UserType) => user.id !== id,)
       );
       if (!targetUser) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         window.addEventListener('click', handlePolicy, {
           capture: true,
-          once: true
+          once: true,
         });
       } else if (targetUser.state === 'blocked') {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         window.addEventListener('click', handlePolicy, {
           capture: true,
-          once: true
+          once: true,
         });
       }
     }
@@ -110,7 +110,7 @@ function mapStateToProps(state: any) {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
     status: state.user.state,
-    id: state.user.id
+    id: state.user.id,
   };
 }
 
@@ -167,13 +167,13 @@ function mapDispatchToProps(dispatch: any) {
       const action = updateUsersAction(users);
 
       dispatch(action);
-    }
+    },
   };
 }
 
 const MainPageContainer = connect<any, any, any>(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MainPageApiContainer);
 
 export default MainPageContainer;
