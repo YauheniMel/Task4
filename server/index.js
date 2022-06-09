@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -15,6 +16,12 @@ const remover = require('./service/remover');
 app.use(express.static(__dirname + './../build'));
 app.use(express.static(__dirname + './../build/static/js'));
 app.use(express.static(__dirname + './../build/static/css'));
+
+app.use(
+  cors({
+    origin: 'https://task-4-deploy.herokuapp.com/'
+  })
+);
 
 app.use('*', (req, res) => {
   res.sendFile('index.html', { root: __dirname + './../public/' });
