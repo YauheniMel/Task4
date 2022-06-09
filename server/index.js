@@ -19,7 +19,7 @@ app.use(express.static(__dirname + './../build/static/css'));
 
 app.use(
   cors({
-    origin: 'https://task-4-deploy.herokuapp.com/'
+    origin: 'https://task-deploy-5.herokuapp.com/'
   })
 );
 
