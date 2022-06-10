@@ -33,13 +33,7 @@ const connection = mysql.createConnection({
 
 const server = http.createServer(app);
 
-const io = socketIo(server, {
-  cors: {
-    origin: 'https://task-deploy-5.herokuapp.com/socket.io/?EIO=4&transport=polling'
-  }
-});
-
-io.listen(server);
+const io = require('socket.io').listen(server);
 
 io.on('connection', function(socket){
   io.emit('message from server', 'message from server - it works!');
