@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import { io } from 'socket.io-client';
+import * as io from 'socket.io-client';
 import { UserType } from '../../interfaces';
 import { loginUserAction, logoutAction } from '../../redux/actions/auth-action';
 import {
@@ -38,7 +38,7 @@ const MainPageApiContainer: FC<any> = function ({
   const [newUsers, setNewUsers] = useState();
 
   useEffect(() => {
-    const socket = io('https://task-deploy-5.herokuapp.com/');
+    const socket = io.connect('https://task-deploy-5.herokuapp.com/');
 
     socket.on('time', (data) => setNewUsers(data));
     if (newUsers) {

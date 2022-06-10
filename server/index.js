@@ -65,7 +65,7 @@ app.use(bodyParser.json());
 
 app.use(router);
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 router.post('/api/users', timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
