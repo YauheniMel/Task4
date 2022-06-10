@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -23,16 +24,20 @@ app.use(
 );
 
 const connection = mysql.createConnection({
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'bd7088f689a30d',
-  database: 'heroku_e2d696a94e7c439',
-  password: 'b56b46ef',
+  host: 'localhost',
+  user: 'root',
+  database: 'usersdb',
+  password: 'melnik123',
   multipleStatements: true
 });
 
 const server = http.createServer(app);
 
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: '*'
+  }
+});
 
 io.on('connection', (socket) => {
   socket.join('update');
