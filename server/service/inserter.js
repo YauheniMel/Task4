@@ -8,7 +8,7 @@ module.exports = ({
   state,
   registerDate,
   loginDate
-}) => `INSERT INTO heroku_e2d696a94e7c439.users (
+}) => `INSERT INTO users (
     firstName,
     lastName,
     email,

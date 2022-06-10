@@ -38,7 +38,7 @@ const MainPageApiContainer: FC<any> = function ({
   const [newUsers, setNewUsers] = useState();
 
   useEffect(() => {
-    const socket = io('http://localhost:5000/');
+    const socket = io('https://task-deploy-5.herokuapp.com/');
 
     socket.on('time', (data) => setNewUsers(data));
     if (newUsers) {
