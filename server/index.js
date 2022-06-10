@@ -41,9 +41,9 @@ const io = socketIo(server, {
 
 io.listen(server);
 
-io.on('connection', (socket) => {
-  socket.join('update');
-});
+io.on('connection', function(socket){
+  io.emit('message from server', 'message from server - it works!');
+})
 
 app.use(
   bodyParser.urlencoded({
