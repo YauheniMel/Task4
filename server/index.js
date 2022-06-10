@@ -33,7 +33,7 @@ const connection = mysql.createConnection({
 
 const server = http.createServer(app);
 
-const io = socketIo(server);
+const io = socketIo.listen(server);
 
 io.on('connection', (socket) => {
   socket.join('update');
