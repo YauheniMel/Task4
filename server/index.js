@@ -39,6 +39,8 @@ const io = socketIo(server, {
   }
 });
 
+io.listen(server);
+
 io.on('connection', (socket) => {
   socket.join('update');
 });
