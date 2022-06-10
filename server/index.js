@@ -19,7 +19,7 @@ app.use(express.static(__dirname + './../build/static/css'));
 
 app.use(
   cors({
-    origin: 'http://localhost:5000/'
+    origin: 'https://task-deploy-5.herokuapp.com/'
   })
 );
 
@@ -35,7 +35,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: '*'
+    origin: 'https://task-deploy-5.herokuapp.com/'
   }
 });
 
