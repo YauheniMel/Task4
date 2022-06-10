@@ -33,11 +33,15 @@ const connection = mysql.createConnection({
 
 const server = http.createServer(app);
 
-const io = require('socket.io').listen(server);
+const io = socketIo(server, {
+  cors: {
+    origin: 'https://task-deploy-5.herokuapp.com/'
+  }
+});
 
-io.on('connection', function(socket){
-  io.emit('message from server', 'message from server - it works!');
-})
+io.on('connection', (socket) => {
+  socket.join('update');
+});
 
 app.use(
   bodyParser.urlencoded({
