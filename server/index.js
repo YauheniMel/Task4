@@ -90,7 +90,7 @@ router.put('/api/login', timeout, async (req, res) => {
 
   try {
     // eslint-disable-next-line consistent-return
-    connection.query('SELECT * FROM users', (err, results) => {
+    connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (err, results) => {
       if (err) throw new Error(err);
 
       const users = Object.values(JSON.parse(JSON.stringify(results)));
@@ -116,7 +116,7 @@ router.put('/api/login', timeout, async (req, res) => {
         )} ${updater.online(targetUser.id)}`,
         (error) => {
           if (error) throw new Error(error);
-          connection.query('SELECT * FROM users', (e, r) => {
+          connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, r) => {
             if (e) throw new Error(e);
 
             const newUsers = Object.values(JSON.parse(JSON.stringify(r)));
@@ -150,7 +150,7 @@ router.put('/api/block', timeout, (req, res) => {
     connection.query(command, (error) => {
       if (error) throw new Error(error);
 
-      connection.query('SELECT * FROM users', (e, r) => {
+      connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, r) => {
         if (e) throw new Error(e);
 
         const newUsers = Object.values(JSON.parse(JSON.stringify(r)));
@@ -177,7 +177,7 @@ router.put('/api/unblock', timeout, (req, res) => {
     connection.query(command, (error) => {
       if (error) throw new Error(error);
 
-      connection.query('SELECT * FROM users', (e, r) => {
+      connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, r) => {
         if (e) throw new Error(e);
 
         const newUsers = Object.values(JSON.parse(JSON.stringify(r)));
@@ -195,7 +195,7 @@ router.put('/api/unblock', timeout, (req, res) => {
 router.post('/api/register', timeout, (req, res) => {
   try {
     // eslint-disable-next-line consistent-return
-    connection.query('SELECT * FROM users', (err, results) => {
+    connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (err, results) => {
       if (err) throw new Error(err);
 
       const users = Object.values(JSON.parse(JSON.stringify(results)));
@@ -213,7 +213,7 @@ router.post('/api/register', timeout, (req, res) => {
         (error) => {
           if (error) throw new Error(error);
 
-          connection.query('SELECT * FROM users', (e, result) => {
+          connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, result) => {
             if (e) throw new Error(e);
 
             const newUsers = Object.values(JSON.parse(JSON.stringify(result)));
@@ -255,7 +255,7 @@ router.delete('/api/del/:ids', timeout, (req, res) => {
   try {
     connection.query(command, (err) => {
       if (err) throw new Error(err);
-      connection.query('SELECT * FROM users', (e, r) => {
+      connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, r) => {
         if (e) throw new Error(e);
 
         const newUsers = Object.values(JSON.parse(JSON.stringify(r)));
@@ -284,7 +284,7 @@ router.post('/api/logout', timeout, (req, res) => {
   try {
     connection.query(command, (err) => {
       if (err) throw new Error(err);
-      connection.query('SELECT * FROM users', (e, r) => {
+      connection.query('SELECT * FROM heroku_e2d696a94e7c439.users', (e, r) => {
         if (e) throw new Error(e);
 
         const newUsers = Object.values(JSON.parse(JSON.stringify(r)));
