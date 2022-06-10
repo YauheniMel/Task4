@@ -1,5 +1,3 @@
-const express = require('express');
-const app = express();
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -8,6 +6,10 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const moment = require('moment');
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server)
 const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
