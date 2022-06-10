@@ -19,7 +19,7 @@ app.use(express.static(__dirname + './../build/static/css'));
 
 app.use(
   cors({
-    origin: 'https://task-deploy-5.herokuapp.com/'
+    origin: 'https://task-deploy-5.herokuapp.com'
   })
 );
 
@@ -33,7 +33,11 @@ const connection = mysql.createConnection({
 
 const server = http.createServer(app);
 
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: `https://task-deploy-5.herokuapp.com`,
+  }
+});
 
 io.on('connection', (socket) => {
   socket.join('update');
