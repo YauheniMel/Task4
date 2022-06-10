@@ -9,6 +9,7 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const moment = require('moment');
+const cors = require('cors');
 const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
@@ -63,6 +64,8 @@ const router = Router();
 app.use(bodyParser.json());
 
 app.use(router);
+
+app.use(cors(corsOptions));
 
 router.post('/api/users', timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
