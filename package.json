@@ -4,7 +4,8 @@
   "private": true,
   "homepage": ".",
   "engines": {
-    "node": "16.13.2"
+    "node": "16.13.2",
+    "npm": "8.5.3"
   },
   "proxy": "https://task-deploy-5.herokuapp.com/",
   "dependencies": {
