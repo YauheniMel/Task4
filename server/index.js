@@ -35,7 +35,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: 'https://task-deploy-5.herokuapp.com/'
+    origin: 'https://task-deploy-5.herokuapp.com/socket.io/?EIO=4&transport=websocket'
   }
 });
 
