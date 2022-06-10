@@ -38,7 +38,7 @@ const MainPageApiContainer: FC<any> = function ({
   const [newUsers, setNewUsers] = useState();
 
   useEffect(() => {
-    const socket = io('https://task-deploy-5.herokuapp.com/socket.io/?EIO=4&transport=websocket');
+    const socket = io('https://task-deploy-5.herokuapp.com/socket.io/?EIO=4&transport=polling');
 
     socket.on('time', (data) => setNewUsers(data));
     if (newUsers) {
