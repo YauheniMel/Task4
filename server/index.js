@@ -24,10 +24,10 @@ app.use(
 );
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'usersdb',
-  password: 'melnik123',
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'bd7088f689a30d',
+  database: 'heroku_e2d696a94e7c439',
+  password: 'b56b46ef',
   multipleStatements: true
 });
 
