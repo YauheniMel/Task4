@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -9,7 +8,6 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const moment = require('moment');
-const cors = require('cors');
 const inserter = require('./service/inserter');
 const updater = require('./service/updater');
 const remover = require('./service/remover');
@@ -36,7 +34,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: `https://task-deploy-5.herokuapp.com/`,
+    origin: `https://task-deploy-5.herokuapp.com`,
   }
 });
 
@@ -64,8 +62,6 @@ const router = Router();
 app.use(bodyParser.json());
 
 app.use(router);
-
-app.use(cors());
 
 router.post('/api/users', timeout, (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
