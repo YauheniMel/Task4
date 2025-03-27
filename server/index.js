@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const http = require('http');
@@ -5,7 +6,6 @@ const cors = require('cors');
 const createUsersTableQuery = require('./queries/createUsersTable');
 const router = require('./controllers');
 const connection = require('./DB');
-require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 
