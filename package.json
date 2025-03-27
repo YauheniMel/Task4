@@ -42,7 +42,8 @@
     "prettier": "2.6.2",
     "sass": "^1.52.1",
     "stylelint": "^14.8.5",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.2",
+    "webpack-cli": "^6.0.1"
   },
   "lint-staged": {
     "**/*.{tsx,ts,js,jsx}": "eslint --fix",
@@ -51,7 +52,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "server:dev": "nodemon ./server/index.js",
+    "server:dev": "nodemon ./server",
+    "server": "node ./dist",
+    "server:build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint **/*.{js,jsx,tsx,ts}",
