@@ -26,8 +26,12 @@ export const ToolBar: FC<any> = function ({ selectedRows }) {
 
   return (
     <ButtonGroup
-      sx={{ position: 'absolute', top: 5 }}
-      variant="text"
+      sx={{
+        display: 'flex',
+        gap: '7px',
+        alignItems: 'center',
+        height: '40px'
+      }}
       aria-label="text button group"
     >
       {selectedRows.length && (
