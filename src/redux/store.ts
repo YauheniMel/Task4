@@ -1,24 +1,18 @@
-import {
-  combineReducers,
-  applyMiddleware,
-  legacy_createStore as createStore,
-} from 'redux';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { rootReducer } from './reducers/root-reducer';
+import { configureStore } from '@reduxjs/toolkit';
 
-import thunk from 'redux-thunk';
-import authReducer from './reducers/auth-reducer';
-import userReducer from './reducers/user-reducer';
-
-const reducer = combineReducers({
-  auth: authReducer,
-  user: userReducer,
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });
 
-const store = createStore(reducer, applyMiddleware(thunk));
+export type AppStore = typeof store;
+export type RootState = ReturnType<AppStore['getState']>;
 
-declare global {
-  interface Window {
-    store: any;
-  }
-}
-window.store = store;
+export type AppDispatch = AppStore['dispatch'];
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 export default store;

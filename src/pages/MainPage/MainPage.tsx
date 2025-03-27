@@ -1,97 +1,43 @@
-import React, { FC, useState } from 'react';
-import Button from '@mui/material/Button';
+import { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Tooltip } from '@mui/material';
-import { toast } from 'react-toastify';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from './MainPage.module.scss';
-import ToolBar from '../../components/ToolBar/ToolBar';
-import Table from '../../components/Table/Table';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { loginThunk, logoutThunk } from '../../redux/actions/profile-action';
+import {
+  profileFirstNameSelector,
+  profileIdSelector,
+  profileLastNameSelector
+} from '../../redux/selectors/profile-selector';
+import { Button } from '@mui/material';
+import { shareIsLoadingSelector } from '../../redux/selectors/share-selector';
+import { useNavigate } from 'react-router-dom';
+import { Table } from '../../components/Table/Table';
+import { ToolBar } from '../../components/ToolBar/ToolBar';
+import { ROUTES_APP } from '../../constants/routes';
 
-const MainPage: FC<any> = function ({
-  id,
-  users,
-  firstName,
-  lastName,
-  blockMe,
-  deleteMe,
-  deleteUserInfo,
-  deleteUsers,
-  blockUsers,
-  unblockUsers,
-  logoutUser,
-  isFetching,
-  setIsFetching,
-}) {
-  const [selectRows, setSelectRows] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+export const MainPage: FC = () => {
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
-  async function handleClick() {
-    setIsLoading(true);
-    try {
-      // eslint-disable-next-line no-restricted-globals
-      await logoutUser(id, status);
+  const dispatch = useAppDispatch();
 
-      deleteUserInfo();
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
+  const navigate = useNavigate();
 
-  async function handleBlockMe() {
-    setIsLoading(true);
-    try {
-      // eslint-disable-next-line no-restricted-globals
-      await logoutUser(id, status);
-      await blockMe(id);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
+  const handleLogout = async () => {
+    await dispatch(logoutThunk());
 
-  async function handleDeleteMe() {
-    setIsLoading(true);
-    try {
-      await deleteMe(id);
+    navigate('./' + ROUTES_APP.login);
+  };
 
-      // eslint-disable-next-line no-restricted-globals
-      await logoutUser(id, status);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
+  const firstName = useAppSelector(profileFirstNameSelector);
+  const lastName = useAppSelector(profileLastNameSelector);
+  const id = useAppSelector(profileIdSelector);
 
-  async function handleBlockUsers() {
-    try {
-      await blockUsers(selectRows);
+  useEffect(() => {
+    if (!id) dispatch(loginThunk());
+  }, [id]);
 
-      setIsFetching(true);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
-  async function handleUnblockUsers() {
-    try {
-      // eslint-disable-next-line array-callback-return
-      const rows = selectRows.filter((row) => users.find((user: any) => user.id === row && user.state !== 'online'));
-
-      await unblockUsers(rows);
-
-      setIsFetching(true);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
-
-  async function handleDeleteUsers() {
-    try {
-      await deleteUsers(selectRows);
-
-      setIsFetching(true);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
+  const isLoading = useAppSelector(shareIsLoadingSelector);
 
   return (
     <div className={styles.wrapper}>
@@ -102,28 +48,8 @@ const MainPage: FC<any> = function ({
             <strong>{`${firstName} ${lastName}`}</strong>
           </div>
           <div>
-            <Tooltip title="Block my account" arrow>
-              <Button
-                sx={{ marginRight: 4 }}
-                variant="contained"
-                onClick={handleBlockMe}
-                disabled={isLoading}
-              >
-                Block me
-              </Button>
-            </Tooltip>
-            <Tooltip title="Remove my account" arrow>
-              <Button
-                sx={{ marginRight: 4 }}
-                variant="contained"
-                onClick={handleDeleteMe}
-                disabled={isLoading}
-              >
-                Remove me
-              </Button>
-            </Tooltip>
             <Button
-              onClick={handleClick}
+              onClick={handleLogout}
               color="secondary"
               disabled={isLoading}
             >
@@ -134,22 +60,10 @@ const MainPage: FC<any> = function ({
       </header>
       <main className={styles.main}>
         <div className={classNames(styles.container, 'container')}>
-          <ToolBar
-            deleteUsers={handleDeleteUsers}
-            blockUsers={handleBlockUsers}
-            selectRows={selectRows}
-            unblockUsers={handleUnblockUsers}
-          />
-          <Table
-            isFetching={isFetching}
-            selectRows={selectRows}
-            users={users}
-            setSelectRows={setSelectRows}
-          />
+          <ToolBar selectedRows={selectedRows} />
+          <Table setSelectedRows={setSelectedRows} />
         </div>
       </main>
     </div>
   );
 };
-
-export default MainPage;
