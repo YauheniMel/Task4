@@ -80,3 +80,33 @@ export const logoutThunk = () => async (dispatch: AppDispatch) => {
     }
   }
 };
+
+export const blockMeThunk =
+  (ids: number[]) => async (dispatch: AppDispatch) => {
+    try {
+      dispatch(logoutThunk());
+
+      await requestAPI.block(ids);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+      } else {
+        throw error;
+      }
+    }
+  };
+
+export const deleteMeThunk =
+  (ids: number[]) => async (dispatch: AppDispatch) => {
+    try {
+      dispatch(logoutThunk());
+
+      await requestAPI.delete(ids);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+      } else {
+        throw error;
+      }
+    }
+  };
