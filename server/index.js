@@ -4,6 +4,8 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const router = require('./controllers');
+const { executeQuery } = require('./DB');
+const createUsersTable = require('./queries/createUsersTable');
 
 const port = process.env.PORT || 5000;
 
@@ -22,6 +24,8 @@ app.use(router);
 
 const server = http.createServer(app);
 
-server.listen(port, () => {
+server.listen(port, async () => {
+  await executeQuery(createUsersTable());
+
   console.log(`Server was running on port ${port}`);
 });
