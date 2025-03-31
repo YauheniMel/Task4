@@ -3,9 +3,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
-const createUsersTableQuery = require('./queries/createUsersTable');
 const router = require('./controllers');
-const connection = require('./DB');
 
 const port = process.env.PORT || 5000;
 
@@ -19,14 +17,6 @@ app.use(
 );
 
 app.use(bodyParser.json());
-
-connection.connect(async () => {
-  try {
-    await connection.promise().query(createUsersTableQuery());
-  } catch (error) {
-    console.log('DB connection error: ' + error);
-  }
-});
 
 app.use(router);
 
