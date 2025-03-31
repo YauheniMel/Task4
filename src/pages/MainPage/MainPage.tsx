@@ -19,6 +19,8 @@ import {
   blockMeThunk,
   deleteMeThunk
 } from '../../redux/actions/profile-action';
+import { socket } from '../../socket';
+import { Socket } from 'socket.io-client';
 
 export const MainPage: FC = () => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
@@ -40,9 +42,25 @@ export const MainPage: FC = () => {
   useEffect(() => {
     try {
       if (!id) dispatch(loginThunk());
+
+      socket.instance.on('delete_response', () => {
+        window.addEventListener('click', handleLogout);
+      });
+
+      socket.instance.on('block_response', () => {
+        window.addEventListener('click', handleLogout);
+      });
     } catch (_) {
       navigate('./' + ROUTES_APP.login);
     }
+
+    return () => {
+      socket.instance.disconnect();
+      // @ts-ignore
+      socket.instance = null as Socket;
+
+      window.removeEventListener('click', handleLogout);
+    };
   }, []);
 
   const isLoading = useAppSelector(shareIsLoadingSelector);
