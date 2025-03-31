@@ -8,12 +8,12 @@ module.exports.online = (id) => `
   WHERE id = ${id};
 `;
 
-module.exports.blockUsers = (ids) =>
-  ids
-    .map((id) => `UPDATE users SET state = 'blocked' WHERE id = ${id};`)
-    .join('\n');
+module.exports.blockUsers = (ids) => `
+    UPDATE users SET state = 'blocked' 
+    WHERE id IN (${ids});
+`;
 
-module.exports.unblockUsers = (ids) =>
-  ids
-    .map((id) => `UPDATE users SET state = 'offline' WHERE id = ${id};`)
-    .join('\n');
+module.exports.unblockUsers = (ids) => `
+    UPDATE users SET state = 'offline' 
+    WHERE id IN (${ids});
+`;

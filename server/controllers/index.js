@@ -6,7 +6,7 @@ const {
 } = require('../queries/updateUser');
 const { createUser } = require('../queries/createUser');
 const { Router } = require('express');
-const connection = require('../DB');
+const { executeQuery } = require('../DB');
 const jwt = require('jsonwebtoken');
 const { find, findAll } = require('../queries/find');
 const { jwtMiddleware } = require('../middleware/jwt.middleware');
@@ -30,7 +30,7 @@ router.put('/api/login', async (req, res) => {
   }
 
   try {
-    const [[user]] = await connection.promise().query(find(login, password));
+    const [user] = await executeQuery(find(login, password));
 
     if (!user) {
       return res.status(401).send('Unauthorized!');
@@ -40,7 +40,7 @@ router.put('/api/login', async (req, res) => {
       return res.status(403).send('User was blocked!');
     }
 
-    await connection.promise().query(online(user.id));
+    await executeQuery(online(user.id));
 
     const accessToken = jwt.sign(
       { id: user.id, login: user.login, password: user.password },
@@ -59,7 +59,7 @@ router.put('/api/login', async (req, res) => {
 
 router.post('/api/signup', async (req, res) => {
   try {
-    await connection.promise().query(createUser(req.body));
+    await executeQuery(createUser(req.body));
 
     return res.status(200).send('User was created successfully!');
   } catch (err) {
@@ -73,7 +73,7 @@ router.put('/api/logout', jwtMiddleware, async (req, res) => {
   try {
     const { id } = jwt.decode(accessToken, process.env.JWT_SECRET);
 
-    await connection.promise().query(offline(id));
+    await executeQuery(offline(id));
 
     return res.status(200).send('Bye-Bye!');
   } catch (err) {
@@ -87,7 +87,7 @@ router.get('/api/users', jwtMiddleware, async (req, res) => {
   try {
     const { id } = jwt.decode(accessToken, process.env.JWT_SECRET);
 
-    const [users] = await connection.promise().query(findAll(id));
+    const users = await executeQuery(findAll(id));
 
     return res.status(200).send(users);
   } catch (error) {
@@ -99,7 +99,7 @@ router.put('/api/block', jwtMiddleware, async (req, res) => {
   const ids = req.body;
 
   try {
-    await connection.promise().query(blockUsers(ids));
+    await executeQuery(blockUsers(ids));
 
     return res.status(200).send(`Success!!!`);
   } catch (error) {
@@ -111,7 +111,9 @@ router.put('/api/unblock', jwtMiddleware, async (req, res) => {
   const ids = req.body;
 
   try {
-    await connection.promise().query(unblockUsers(ids));
+    const query = unblockUsers(ids);
+
+    await executeQuery(query);
 
     return res.status(200).send(`Success!!!`);
   } catch (error) {
@@ -123,7 +125,7 @@ router.delete('/api/delete', jwtMiddleware, async (req, res) => {
   const ids = req.body;
 
   try {
-    await connection.promise().query(deleteUsers(ids));
+    await executeQuery(deleteUsers(ids));
 
     return res.status(200).send(`Success!!!`);
   } catch (error) {
