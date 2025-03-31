@@ -1,6 +1,6 @@
 module.exports.offline = (id) => `
   UPDATE users SET state = 'offline'
-  WHERE id = ${id};
+  WHERE (id = ${id} AND state != 'blocked');
 `;
 
 module.exports.online = (id) => `

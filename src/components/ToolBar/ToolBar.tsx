@@ -8,12 +8,17 @@ import {
   deleteUsersThunk,
   unblockUsersThunk
 } from '../../redux/actions/users-action';
+import { socket } from '../../socket';
 
 export const ToolBar: FC<any> = function ({ selectedRows }) {
   const dispatch = useAppDispatch();
 
   const handleBlockUsers = async () => {
     await dispatch(blockUsersThunk(selectedRows));
+
+    socket.instance.emit('block', {
+      receiverIds: selectedRows
+    });
   };
 
   const handleUnblockUsers = async () => {
@@ -22,6 +27,10 @@ export const ToolBar: FC<any> = function ({ selectedRows }) {
 
   const handleDeleteUsers = async () => {
     await dispatch(deleteUsersThunk(selectedRows));
+
+    socket.instance.emit('delete', {
+      receiverIds: selectedRows
+    });
   };
 
   return (
