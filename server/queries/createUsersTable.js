@@ -6,8 +6,8 @@ module.exports = () => `
   email  varchar(100) NOT NULL UNIQUE,
   login  varchar(100) NOT NULL UNIQUE,
   password  varchar(100) NOT NULL,
-  sex  varchar(100) NOT NULL,
-  state  varchar(100) NOT NULL,
+  sex  enum('male','female') NOT NULL,
+  state  enum('online','offline','blocked') NOT NULL,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
