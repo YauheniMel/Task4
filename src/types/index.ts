@@ -9,6 +9,8 @@ export interface ICredentials {
 
 export interface IUser extends ICreateUser {
   id: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ICreateUser {
