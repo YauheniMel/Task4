@@ -10,7 +10,11 @@ import {
 } from '../../redux/actions/users-action';
 import { socket } from '../../socket';
 
-export const ToolBar: FC<any> = function ({ selectedRows }) {
+interface IToolBar {
+  selectedRows: number[];
+}
+
+export const ToolBar: FC<IToolBar> = ({ selectedRows }) => {
   const dispatch = useAppDispatch();
 
   const handleBlockUsers = async () => {
