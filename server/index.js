@@ -33,6 +33,8 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
+  console.log('A user connected ' + socket.id);
+
   socket.on('block', (data) => {
     for (let [, socket] of io.of('/').sockets) {
       const accessToken = socket.handshake.auth.token;
@@ -56,7 +58,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected' + socket.id);
+    console.log('A user disconnected ' + socket.id);
   });
 });
 

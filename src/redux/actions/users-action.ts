@@ -42,7 +42,7 @@ export const getUsersThunk = () => async (dispatch: AppDispatch) => {
         dispatch(logoutAction());
       }
 
-      toast.error(error.message);
+      toast.error(error.response?.data);
     } else {
       throw error;
     }
@@ -61,7 +61,7 @@ export const blockUsersThunk =
           dispatch(logoutAction());
         }
 
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
@@ -80,7 +80,7 @@ export const unblockUsersThunk =
           dispatch(logoutAction());
         }
 
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
@@ -99,7 +99,7 @@ export const deleteUsersThunk =
           dispatch(logoutAction());
         }
 
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }

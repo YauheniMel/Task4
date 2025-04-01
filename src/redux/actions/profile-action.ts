@@ -29,7 +29,7 @@ export const loginThunk =
       toast.success(`Hello ${user.firstName}`);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
@@ -48,7 +48,7 @@ export const signupThunk =
       );
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
@@ -71,7 +71,7 @@ export const logoutThunk = () => async (dispatch: AppDispatch) => {
         dispatch(logoutAction());
       }
 
-      toast.error(error.message);
+      toast.error(error.response?.data);
     } else {
       throw error;
     }
@@ -86,7 +86,7 @@ export const blockMeThunk =
       await requestAPI.block(ids);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
@@ -101,7 +101,7 @@ export const deleteMeThunk =
       await requestAPI.delete(ids);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data);
       } else {
         throw error;
       }
