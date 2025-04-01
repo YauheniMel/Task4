@@ -5,6 +5,20 @@ export const axiosInstance = axios.create({
   withCredentials: true
 });
 
+axiosInstance.interceptors.response.use((response) => {
+  if (response.data.accessToken) {
+    setAuthorizationHeader(response.data.accessToken);
+
+    sessionStorage.setItem('token', response.data.accessToken);
+  }
+
+  if (response.status === 401) {
+    sessionStorage.removeItem('token');
+  }
+
+  return response;
+});
+
 export function setAuthorizationHeader(token?: string) {
   if (token) {
     axiosInstance.defaults.headers.common.authorization = `Bearer ${token}`;

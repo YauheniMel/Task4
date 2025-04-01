@@ -40,8 +40,6 @@ export const getUsersThunk = () => async (dispatch: AppDispatch) => {
     if (error instanceof AxiosError) {
       if (error.response?.status === 401) {
         dispatch(logoutAction());
-
-        sessionStorage.removeItem('token');
       }
 
       toast.error(error.message);
@@ -61,8 +59,6 @@ export const blockUsersThunk =
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
           dispatch(logoutAction());
-
-          sessionStorage.removeItem('token');
         }
 
         toast.error(error.message);
@@ -82,8 +78,6 @@ export const unblockUsersThunk =
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
           dispatch(logoutAction());
-
-          sessionStorage.removeItem('token');
         }
 
         toast.error(error.message);
@@ -103,8 +97,6 @@ export const deleteUsersThunk =
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
           dispatch(logoutAction());
-
-          sessionStorage.removeItem('token');
         }
 
         toast.error(error.message);
