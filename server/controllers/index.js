@@ -33,11 +33,11 @@ router.put('/api/login', async (req, res) => {
     const [user] = await executeQuery(find(login, password));
 
     if (!user) {
-      return res.status(401).send('Unauthorized!');
+      return res.status(401).send({ message: 'Unauthorized!' });
     }
 
     if (user.state === 'blocked') {
-      return res.status(403).send('User was blocked!');
+      return res.status(403).send({ message: 'User was blocked!' });
     }
 
     await executeQuery(online(user.id));
@@ -53,7 +53,7 @@ router.put('/api/login', async (req, res) => {
       user
     });
   } catch (error) {
-    return res.status(400).send(error);
+    return res.status(400).send({ message: `Login failed: ${error.message}` });
   }
 });
 
@@ -61,9 +61,9 @@ router.post('/api/signup', async (req, res) => {
   try {
     await executeQuery(createUser(req.body));
 
-    return res.status(200).send('User was created successfully!');
-  } catch (err) {
-    return res.status(400).send(`Logout failed: ${err.message}`);
+    return res.status(201).send({ message: 'User was created successfully!' });
+  } catch (error) {
+    return res.status(400).send({ message: `Signup failed: ${error.message}` });
   }
 });
 
@@ -75,9 +75,9 @@ router.put('/api/logout', jwtMiddleware, async (req, res) => {
 
     await executeQuery(offline(id));
 
-    return res.status(200).send('Bye-Bye!');
-  } catch (err) {
-    return res.status(400).send(`Logout failed: ${err.message}`);
+    return res.status(200).send({ message: 'Bye-Bye!' });
+  } catch (error) {
+    return res.status(400).send({ message: `Logout failed: ${error.message}` });
   }
 });
 
@@ -89,9 +89,11 @@ router.get('/api/users', jwtMiddleware, async (req, res) => {
 
     const users = await executeQuery(findAll(id));
 
-    return res.status(200).send(users);
+    return res.status(200).send({ accessToken: res.locals.accessToken, users });
   } catch (error) {
-    return res.status(400).send(error);
+    return res
+      .status(400)
+      .send({ message: `Get all users failed: ${error.message}` });
   }
 });
 
@@ -101,9 +103,13 @@ router.put('/api/block', jwtMiddleware, async (req, res) => {
   try {
     await executeQuery(blockUsers(ids));
 
-    return res.status(200).send(`Success!!!`);
+    return res
+      .status(200)
+      .send({ accessToken: res.locals.accessToken, message: `Success!!!` });
   } catch (error) {
-    return res.status(400).send(error);
+    return res
+      .status(400)
+      .send({ message: `Block users failed: ${error.message}` });
   }
 });
 
@@ -115,9 +121,13 @@ router.put('/api/unblock', jwtMiddleware, async (req, res) => {
 
     await executeQuery(query);
 
-    return res.status(200).send(`Success!!!`);
+    return res
+      .status(200)
+      .send({ accessToken: res.locals.accessToken, message: `Success!!!` });
   } catch (error) {
-    return res.status(400).send(error);
+    return res
+      .status(400)
+      .send({ message: `Unblock users failed: ${error.message}` });
   }
 });
 
@@ -127,9 +137,13 @@ router.delete('/api/delete', jwtMiddleware, async (req, res) => {
   try {
     await executeQuery(deleteUsers(ids));
 
-    return res.status(200).send(`Success!!!`);
+    return res
+      .status(200)
+      .send({ accessToken: res.locals.accessToken, message: `Success!!!` });
   } catch (error) {
-    return res.status(400).send(error);
+    return res
+      .status(400)
+      .send({ message: `Delete users failed: ${error.message}` });
   }
 });
 

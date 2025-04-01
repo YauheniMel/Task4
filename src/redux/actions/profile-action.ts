@@ -22,13 +22,11 @@ export const loginThunk =
     try {
       dispatch(isLoadingAction(true));
 
-      const { user, accessToken } = await requestAPI.login(credentials);
+      const { user } = await requestAPI.login(credentials);
 
       dispatch(setProfileAction(user));
 
       toast.success(`Hello ${user.firstName}`);
-
-      sessionStorage.setItem('token', accessToken);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         toast.error(error.message);
@@ -59,9 +57,9 @@ export const signupThunk =
 
 export const logoutThunk = () => async (dispatch: AppDispatch) => {
   try {
-    const data = await requestAPI.logout();
+    const { message } = await requestAPI.logout();
 
-    toast.success(data);
+    toast.success(message);
 
     dispatch(logoutAction());
     setAuthorizationHeader(undefined);
@@ -71,7 +69,6 @@ export const logoutThunk = () => async (dispatch: AppDispatch) => {
     if (error instanceof AxiosError) {
       if (error.response?.status === 401) {
         dispatch(logoutAction());
-        sessionStorage.removeItem('token');
       }
 
       toast.error(error.message);

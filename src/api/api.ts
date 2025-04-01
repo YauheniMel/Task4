@@ -12,7 +12,7 @@ export const requestAPI = {
     return data;
   },
   signup: async (userInfo: ICreateUser) => {
-    const { data } = await axiosInstance.post<{ id: string }>(
+    const { data } = await axiosInstance.post<{ message: string }>(
       pathApi.signup,
       userInfo
     );
@@ -20,29 +20,42 @@ export const requestAPI = {
     return data;
   },
   logout: async () => {
-    const { data } = await axiosInstance.put<string>(pathApi.logout);
+    const { data } = await axiosInstance.put<{ message: string }>(
+      pathApi.logout
+    );
 
     return data;
   },
   getUsers: async () => {
-    const { data } = await axiosInstance.get<IUser[]>(pathApi.getUsers);
+    const { data } = await axiosInstance.get<{ users: IUser[] }>(
+      pathApi.getUsers
+    );
 
-    return data;
+    return data.users;
   },
   block: async (ids: number[]) => {
-    const { data } = await axiosInstance.put<string>(pathApi.block, ids);
+    const { data } = await axiosInstance.put<{ message: string }>(
+      pathApi.block,
+      ids
+    );
 
     return data;
   },
   unblock: async (ids: number[]) => {
-    const { data } = await axiosInstance.put<string>(pathApi.unblock, ids);
+    const { data } = await axiosInstance.put<{ message: string }>(
+      pathApi.unblock,
+      ids
+    );
 
     return data;
   },
   delete: async (ids: number[]) => {
-    const { data } = await axiosInstance.delete<string>(pathApi.delete, {
-      data: ids
-    });
+    const { data } = await axiosInstance.delete<{ message: string }>(
+      pathApi.delete,
+      {
+        data: ids
+      }
+    );
 
     return data;
   }
